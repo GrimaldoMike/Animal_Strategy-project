@@ -41,7 +41,6 @@ public class PlayerInputMenu : MonoBehaviour
             ShowHideErrorMessage();
         }
         KeyInputController();
-
     }
 
     private void KeyInputController()

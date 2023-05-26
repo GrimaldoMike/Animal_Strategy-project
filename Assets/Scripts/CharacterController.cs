@@ -93,7 +93,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitCharacterController();
+        InitCharacterControllerValues();
     }
 
     // Update is called once per frame
@@ -632,7 +632,7 @@ public class CharacterController : MonoBehaviour
     */
 
 
-    private void InitCharacterController()
+    private void InitCharacterControllerValues()
     {
         moveRange = 3.5f; runRange = 8f;
         isMoving = false; isMeleeing = false; isRunning = false; isShooting = false; isDefending = false; isDamaged = false; isKnockedOut = false;
