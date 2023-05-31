@@ -24,10 +24,12 @@ public class PlayerInputMenu : MonoBehaviour
     public TMP_Text hitChanceText;
 
     public TMP_Text resultText;
-    public GameObject endBattleButton;
+    public GameObject startBattleButton, endBattleButton;
 
     public GameObject pauseScreen;
     public AudioSource music;
+
+    public TMP_Text battleStateLabel;
 
     private void Start()
     {
@@ -58,6 +60,11 @@ public class PlayerInputMenu : MonoBehaviour
         moveReturnMenu.SetActive(false);
         meleeMenu.SetActive(false);
         fireMenu.SetActive(false);
+        turnPointsText.gameObject.SetActive(false);
+        errorText.gameObject.SetActive(false);
+        battleStateLabel.gameObject.SetActive(false);
+        startBattleButton.SetActive(false);
+        endBattleButton.SetActive(false);
         ShowHideTargetDisplay(false); //Cuando se regresa al menu principal, se oculta el indicador target display.
 
         if(GameManager.instance.activePlayer.isShooting == false) //Solamente no regreses la camara al personaje activo cuando no estoy disparando.
@@ -68,12 +75,14 @@ public class PlayerInputMenu : MonoBehaviour
     {
         inputMenu.SetActive(true);
         ShowHideTargetDisplay(false); //Se regresa al menu principal, se oculta el indicador target display.
+        turnPointsText.gameObject.SetActive(true);
     }
 
     public void ShowMoveMenu()
     {
         HideMenus();
         moveMenu.SetActive(true);
+        turnPointsText.gameObject.SetActive(true);
         ShowMove(); //Se activa Move por default cuando se presiona "Move", entonces se muestra el rango de Walk.
 
         SFXManager.instance.UISelect.Play();
@@ -217,6 +226,20 @@ public class PlayerInputMenu : MonoBehaviour
         CameraController.instance.SetMoveTarget(GameManager.instance.activePlayer.transform.position);
 
     }
+    public IEnumerator WaitToStartPhase(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        battleStateLabel.gameObject.SetActive(false);
+
+        GameManager.instance.EndTurn();
+
+        CameraController.instance.SetMoveTarget(GameManager.instance.activePlayer.transform.position);
+    }
+    public IEnumerator WaitToEndBattlePhases(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        battleStateLabel.gameObject.SetActive(false);
+    }
     //Funcion que controla si se muestra el display target encima de los enemigos.
     private void ShowHideTargetDisplay(bool showVar)
     {
@@ -331,9 +354,18 @@ public class PlayerInputMenu : MonoBehaviour
         SFXManager.instance.UISelect.Play();
     }
 
+    //Va controlar el inicio de la pelea, cuando todas las unidades hallan sido spawneadas.
+    public void StartBattle()
+    {
+        startBattleButton.SetActive(false);
+        BattleManager.instance.UpdateBattleState(); // Segundo update a battle PLAYERTURN o ENEMYTURN.
+
+        ShowTurnPhases(true); //Se manda true porque es el primer turno.
+    }
+
     public void LeaveBattle()
     {
-        GameManager.instance.LeaveBattle();  
+        GameManager.instance.LeaveBattle();
     }
 
     //Se revisa la pausa si esta activo el gameObject de pausa.
@@ -358,6 +390,32 @@ public class PlayerInputMenu : MonoBehaviour
         }
     }
 
+    public void ShowTurnPhases(bool isFirstTurn)
+    {
+        if (BattleManager.instance.currentBattleState == BattleManager.BattleState.PLAYERTURN)
+        {
+            battleStateLabel.text = "Hero Phase";
+        }
+        else if (BattleManager.instance.currentBattleState == BattleManager.BattleState.ENEMYTURN)
+        {
+            battleStateLabel.text = "Enemy Phase";
+        }
+        else
+        {
+            battleStateLabel.gameObject.SetActive(false);
+            battleStateLabel.text = "ACASO ENTRE POR AQUI?";
+        }
+        battleStateLabel.gameObject.SetActive(true);
+        if(isFirstTurn == true)
+        {
+            StartCoroutine(WaitToStartPhase(1f));
+        }
+        else
+        {
+            StartCoroutine(WaitToEndBattlePhases(1f));
+        }
+        Debug.Log("DEBUG: " +battleStateLabel.text);
+    }
 
     public void GoToMainMenu()
     {

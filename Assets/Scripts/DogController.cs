@@ -17,9 +17,7 @@ public class DogController : CharacterController
     public float maxRun;
     public float currentSpeed;
     public bool  isReadyToAttack;
-
     /// </summary>
-
 
     // Start is called before the first frame update
     void Start()
@@ -168,7 +166,6 @@ public class DogController : CharacterController
             meleeTargets.Clear();
         }
     }
-
 
     private void InitDogCharacterController()
     {

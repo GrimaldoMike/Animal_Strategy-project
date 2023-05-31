@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public string levelToLoad;
 
     public bool isPaused;
+    public bool lastTurnBelongsToEnemy;
 
 
     // Start is called before the first frame update
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     {
         InitGameManagerValues();
         SetUpCharactersInPlay();
+        BattleManager.instance.UpdateBattleState(); // Primer update a battle START.
     }
 
     private void SetUpCharactersInPlay()
@@ -50,14 +52,18 @@ public class GameManager : MonoBehaviour
         SettingUpTurnOrder();
 
         activePlayer = allChars[0]; // Se agrega el primer personaje de la lista como el activo.
+        lastTurnBelongsToEnemy = activePlayer.isEnemy;
 
         SettingUpSpawnPointsOnMap();
+
+        SettingUpCharacterSpawnController();
+
 
         CameraController.instance.SnapBackToPlayer(true); //La camara enfoca al jugador activo. Se manda true para que se active.
 
         //Se inicializa con -1 para que cuando EndTurn() suceda, inicialize el activo con el 0.
         currentChar = -1;
-        EndTurn();
+        //EndTurn();
     }
 
     //
@@ -129,6 +135,17 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    // Aqui es donde nos mantenemos hasta que los personajes aparezcan en pantalla.
+    private void SettingUpCharacterSpawnController()
+    {
+        /// 
+        /// Aqui va el código de donde se spawnearán los personajes en el lugar.
+        /// 
+
+        PlayerInputMenu.instance.startBattleButton.SetActive(true);
+    }
+
     public void ReturnToPoint()
     {
         activePlayer.transform.position = activePlayer.originalPosition;
@@ -183,6 +200,7 @@ public class GameManager : MonoBehaviour
     {
         CheckForVictory();
 
+
         if (matchEnded == false)
         {
             //Se lleva el control de turno
@@ -192,13 +210,20 @@ public class GameManager : MonoBehaviour
                 currentChar = 0;
             }
 
+
             activePlayer = allChars[currentChar];
+
+            if(CheckForTurnChange() == true)
+            {
+                return;
+            }
+
             CameraController.instance.SnapBackToPlayer(true); //La camara enfoca al jugador nuevo activo. Se manda true para que se active.
 
             turnPointsRemaining = totalTurnPoints; // Se resetean las acciones por turno.
 
             //Se revisa quien tiene el turno.
-            //Si es enemigi, Nos saltamos el turno de los enemigos, no serán controlados por el jugador.
+            //Si es enemigo, Nos saltamos el turno de los enemigos, no serán controlados por el jugador.
             if (activePlayer.isEnemy == false)
             {
                 //MoveGrid.instance.ShowPointsInRange(activePlayer.moveRange, activePlayer.transform.position); //Mientras sea el turno del jugador, muestra los move points asignados a ese personaje.
@@ -221,6 +246,21 @@ public class GameManager : MonoBehaviour
             //Se quita el estado de Defensa al principio del turno de cada ActivePlayer
             activePlayer.SetDefending(false);
         }
+    }
+
+    private bool CheckForTurnChange()
+    {
+        bool varBool = false ;
+        if (activePlayer.isEnemy != lastTurnBelongsToEnemy)
+        {
+            BattleManager.instance.UpdateBattleState(); // Tercer update a battle PLAYERTURN o ENEMYTURN.
+            lastTurnBelongsToEnemy = activePlayer.isEnemy;
+            currentChar--;
+
+            PlayerInputMenu.instance.ShowTurnPhases(true);
+            varBool = true;
+        }
+        return varBool;
     }
 
     //Corutina para pasar el turno de los enemigos. TEMPORAL.
@@ -268,7 +308,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("PLAYER WINS");
         matchEnded = true;
         BattleEnded(1); //Se activa el final de la batalla.
-
     }
 
     public void PlayerLooses()
@@ -276,13 +315,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("PLAYER LOOSES");
         matchEnded = true;
         BattleEnded(2);
-
     }
 
     /// Se crea una funcion BattleEnded que recibe un estado de la batalla en entero. 
     ///     battleState=1: Gano Player.  battleState=2: Gano Enemigo,  battleState=3: Empate
     ///     battleState=0: No definido (puede usarse para cinematicas que mantengan el estado de la batalla)
-
     private void BattleEnded(int battleState)
     {
         PlayerInputMenu.instance.turnPointsText.gameObject.SetActive(false);
@@ -341,5 +378,6 @@ public class GameManager : MonoBehaviour
         totalTurnPoints = 2;
         currentActionCost = 1;
         isPaused = false;
+        lastTurnBelongsToEnemy = false;
     }
 }

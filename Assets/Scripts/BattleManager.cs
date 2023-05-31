@@ -14,10 +14,6 @@ public class BattleManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
         InitBattleManagerValues();
     }
 
@@ -25,7 +21,7 @@ public class BattleManager : MonoBehaviour
     //Función que se encarga de llevar el control del cambio de battle states
     public void UpdateBattleState()
     {
-        string textMessage = "";
+        string textMessage;
         switch (currentBattleState)
         {
             case BattleState.PROLOGUE:
@@ -55,10 +51,14 @@ public class BattleManager : MonoBehaviour
                         }
                         textMessage = "|| previousBattleState=" + previousBattleState + " || currentBattleState=" + currentBattleState;
                     }
+                    else
+                    {
+                        textMessage = "ERROR1 en:  BattleState= " + BattleState.START + "|| previousBattleState=" + previousBattleState + " || currentBattleState=" + currentBattleState;
+                    }
                 }
                 else
                 {
-                    textMessage = "ERROR en:  BattleState= " + BattleState.START + "|| previousBattleState=" + previousBattleState + " || currentBattleState=" + currentBattleState;
+                    textMessage = "ERROR2 en:  BattleState= " + BattleState.START + "|| previousBattleState=" + previousBattleState + " || currentBattleState=" + currentBattleState;
                 }
                 break;
             case BattleState.PLAYERTURN: // Solamente estamos en PLAYERTURN si estuve en START o ENEMYTURN
@@ -87,7 +87,6 @@ public class BattleManager : MonoBehaviour
                 break;
             case BattleState.ENEMYTURN: // Solamente estamos en PLAYERTURN si estuve en START o PLAYERTURN
                 if (previousBattleState == BattleState.START)
-                    if (previousBattleState == BattleState.START)
                 {
                     previousBattleState = currentBattleState;
                     currentBattleState = BattleState.PLAYERTURN;
@@ -170,12 +169,6 @@ public class BattleManager : MonoBehaviour
                 break;
         }
         Debug.Log(textMessage);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void InitBattleManagerValues()
