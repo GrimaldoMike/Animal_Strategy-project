@@ -30,6 +30,8 @@ public class PlayerInputMenu : MonoBehaviour
     public AudioSource music;
 
     public TMP_Text battleStateLabel;
+    public GameObject battleStatePlayerLabel;
+    public GameObject battleStateEnemyLabel;
 
     private void Start()
     {
