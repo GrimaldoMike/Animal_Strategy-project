@@ -93,6 +93,8 @@ public class PlayerInputMenu : MonoBehaviour
     {
         HideMenus();
         moveReturnMenu.SetActive(true);
+        turnPointsText.gameObject.SetActive(true);
+        UpdateTurnPointsText(-1);
     }
 
     //Después de mover o correr, debes aceptar el movimiento de a donde llegaste.
@@ -109,8 +111,10 @@ public class PlayerInputMenu : MonoBehaviour
     {
         GameManager.instance.ReturnToPoint();
         HideMenus();
+        UpdateTurnPointsText(GameManager.instance.turnPointsRemaining); // Sirve para quitar el mensaje de "Move here?" y dejar los turn points que tenia
+        turnPointsText.gameObject.SetActive(true);
         moveMenu.SetActive(true);
-        ShowMove(); 
+        ShowMove();
         SFXManager.instance.UICancel.Play();
     }
 
@@ -148,6 +152,10 @@ public class PlayerInputMenu : MonoBehaviour
     public void UpdateTurnPointsText(int turnPoints)
     {
         turnPointsText.text = "Turn Points Remaining: " + turnPoints;
+        if(turnPoints == -1)
+        {
+            turnPointsText.text = "Move here?: ";
+        }
     }
 
     //Boton de "Skip Turn"
@@ -324,7 +332,6 @@ public class PlayerInputMenu : MonoBehaviour
 
         CameraController.instance.SetFireView(); //Actualizamos la camara de disparo.
         SFXManager.instance.UISelect.Play();
-
     }
 
     //Se manda llamar el isparo en el menú de Shoot.
@@ -343,7 +350,6 @@ public class PlayerInputMenu : MonoBehaviour
     //Función que controla el texto de las probabilidad de accuracy.
     public void UpdateHitChance()
     {
-        float hitChance = Random.Range(50f, 95f);
         hitChanceText.text = "Chance to Hit: " + GameManager.instance.activePlayer.CheckShotChance().ToString("F1") + "%";
     }
 

@@ -200,7 +200,6 @@ public class GameManager : MonoBehaviour
     {
         CheckForVictory();
 
-
         if (matchEnded == false)
         {
             //Se lleva el control de turno
@@ -284,7 +283,7 @@ public class GameManager : MonoBehaviour
 
         if (allDead == true)
         {
-            PlayerLooses();
+            BattleEnded(2); //Se activa el final de la batalla. PlayerLooses();
         }
         else
         {
@@ -298,23 +297,9 @@ public class GameManager : MonoBehaviour
             }
             if (allDead == true)
             {
-                PlayerWins();
+                BattleEnded(1); //Se activa el final de la batalla. PlayerWins();
             }
         }
-    }
-
-    public void PlayerWins()
-    {
-        Debug.Log("PLAYER WINS");
-        matchEnded = true;
-        BattleEnded(1); //Se activa el final de la batalla.
-    }
-
-    public void PlayerLooses()
-    {
-        Debug.Log("PLAYER LOOSES");
-        matchEnded = true;
-        BattleEnded(2);
     }
 
     /// Se crea una funcion BattleEnded que recibe un estado de la batalla en entero. 
@@ -322,6 +307,9 @@ public class GameManager : MonoBehaviour
     ///     battleState=0: No definido (puede usarse para cinematicas que mantengan el estado de la batalla)
     private void BattleEnded(int battleState)
     {
+        BattleManager.instance.UpdateBattleState(); // Cuarto update a battle WIN o LOSE.
+        matchEnded = true;
+
         PlayerInputMenu.instance.turnPointsText.gameObject.SetActive(false);
         string resultText;
 
@@ -349,6 +337,7 @@ public class GameManager : MonoBehaviour
 
     public void LeaveBattle()
     {
+        BattleManager.instance.UpdateBattleState(); // Quinto update a battle EPILOGUE.
         SceneManager.LoadScene(levelToLoad);
     }
 
