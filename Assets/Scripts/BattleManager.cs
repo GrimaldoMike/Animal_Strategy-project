@@ -5,6 +5,11 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
+    public void Awake()
+    {
+        instance = this;
+        InitBattleManagerValues();
+    }
 
     /// <BattleState>
     /// Se creó estados de combate para controlar los encuentros.
@@ -21,12 +26,6 @@ public class BattleManager : MonoBehaviour
 
     //Se guardan cuales fueron los battle states actuales y el anterior a este.
     public BattleState currentBattleState, previousBattleState;
-
-    public void Awake()
-    {
-        instance = this;
-        InitBattleManagerValues();
-    }
 
     // <>
     //Función que se encarga de llevar el control del cambio de battle states

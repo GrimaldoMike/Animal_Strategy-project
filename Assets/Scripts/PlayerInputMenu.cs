@@ -30,8 +30,7 @@ public class PlayerInputMenu : MonoBehaviour
     public AudioSource music;
 
     public TMP_Text battleStateLabel;
-    public GameObject battleStatePlayerLabel;
-    public GameObject battleStateEnemyLabel;
+    public GameObject battleStatePlayerLabel, battleStateEnemyLabel;
 
     private void Start()
     {
@@ -65,6 +64,8 @@ public class PlayerInputMenu : MonoBehaviour
         turnPointsText.gameObject.SetActive(false);
         errorText.gameObject.SetActive(false);
         battleStateLabel.gameObject.SetActive(false);
+        battleStatePlayerLabel.gameObject.SetActive(false);
+        battleStateEnemyLabel.gameObject.SetActive(false);
         startBattleButton.SetActive(false);
         endBattleButton.SetActive(false);
         ShowHideTargetDisplay(false); //Cuando se regresa al menu principal, se oculta el indicador target display.
@@ -240,6 +241,8 @@ public class PlayerInputMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToWait);
         battleStateLabel.gameObject.SetActive(false);
+        battleStatePlayerLabel.SetActive(false);
+        battleStateEnemyLabel.SetActive(false);
 
         GameManager.instance.EndTurn();
 
@@ -249,6 +252,8 @@ public class PlayerInputMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToWait);
         battleStateLabel.gameObject.SetActive(false);
+        battleStatePlayerLabel.SetActive(false);
+        battleStateEnemyLabel.SetActive(false);
     }
     //Funcion que controla si se muestra el display target encima de los enemigos.
     private void ShowHideTargetDisplay(bool showVar)
@@ -365,10 +370,22 @@ public class PlayerInputMenu : MonoBehaviour
     //Va controlar el inicio de la pelea, cuando todas las unidades hallan sido spawneadas.
     public void StartBattle()
     {
-        startBattleButton.SetActive(false);
-        BattleManager.instance.UpdateBattleState(); // Segundo update a battle PLAYERTURN o ENEMYTURN.
+        if (GameManager.instance.playerTeam.Count > 0)
+        {
+            startBattleButton.SetActive(false);
+            BattleManager.instance.UpdateBattleState(); // Segundo update a battle PLAYERTURN o ENEMYTURN.
 
-        ShowTurnPhases(true); //Se manda true porque es el primer turno.
+            GameManager.instance.SetUpCharactersInPlay();
+
+            ShowTurnPhases(true); //Se manda true porque es el primer turno.
+        }
+        else
+        {
+            ShowErrorText("Debe haber al menos un personaje jugador spawneado en el mapa");
+            Debug.Log("Debe haber al menos un personaje jugador spawneado en el mapa");
+            SFXManager.instance.UICancel.Play();
+        }
+
     }
 
     public void LeaveBattle()
@@ -403,17 +420,21 @@ public class PlayerInputMenu : MonoBehaviour
         if (BattleManager.instance.currentBattleState == BattleManager.BattleState.PLAYERTURN)
         {
             battleStateLabel.text = "Hero Phase";
+            battleStatePlayerLabel.SetActive(true);
         }
         else if (BattleManager.instance.currentBattleState == BattleManager.BattleState.ENEMYTURN)
         {
             battleStateLabel.text = "Enemy Phase";
+            battleStateEnemyLabel.SetActive(true);
         }
         else
         {
             battleStateLabel.gameObject.SetActive(false);
+            battleStatePlayerLabel.SetActive(false);
+            battleStateEnemyLabel.SetActive(false);
             battleStateLabel.text = "ACASO ENTRE POR AQUI?";
         }
-        battleStateLabel.gameObject.SetActive(true);
+        //battleStateLabel.gameObject.SetActive(true);
         if(isFirstTurn == true)
         {
             StartCoroutine(WaitToStartPhase(1f));
@@ -422,7 +443,6 @@ public class PlayerInputMenu : MonoBehaviour
         {
             StartCoroutine(WaitToEndBattlePhases(1f));
         }
-        Debug.Log("DEBUG: " +battleStateLabel.text);
     }
 
     public void GoToMainMenu()
@@ -431,6 +451,6 @@ public class PlayerInputMenu : MonoBehaviour
         Destroy(gameObject);
         GameManager.instance.TimeScalingController(1f);
         SceneManager.LoadScene("Main Menu");
-
     }
+
 }

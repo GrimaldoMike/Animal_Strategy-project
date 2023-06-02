@@ -367,6 +367,7 @@ public class CharacterController : MonoBehaviour
         }
 
         GetComponent<Collider>().enabled = false; //Se quita el collider para que no choque con los jugadores activos.
+        SetDefending(false);
     }
 
     //Actualizamos el UI del HP

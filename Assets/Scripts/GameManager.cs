@@ -42,12 +42,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitGameManagerValues();
-        SetUpCharactersInPlay();
         BattleManager.instance.UpdateBattleState(); // Primer update a battle START.
+        InitGameManagerValues();
+        //SetUpCharactersInPlay();
     }
 
-    private void SetUpCharactersInPlay()
+    public void SetUpCharactersInPlay()
     {
         SettingUpTurnOrder();
 
@@ -55,9 +55,6 @@ public class GameManager : MonoBehaviour
         lastTurnBelongsToEnemy = activePlayer.isEnemy;
 
         SettingUpSpawnPointsOnMap();
-
-        SettingUpCharacterSpawnController();
-
 
         CameraController.instance.SnapBackToPlayer(true); //La camara enfoca al jugador activo. Se manda true para que se active.
 
@@ -97,7 +94,7 @@ public class GameManager : MonoBehaviour
         //Se borra la lista primero. Despues se define un orden es al azar. Puede ir primero el jugador o el enemigo.
         allChars.Clear();
 
-        if(Random.value >= 0.5)
+        if (Random.value >= 0.5)
         {
             allChars.AddRange(playerTeam);
             allChars.AddRange(enemyTeam);
@@ -134,16 +131,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    // Aqui es donde nos mantenemos hasta que los personajes aparezcan en pantalla.
-    private void SettingUpCharacterSpawnController()
-    {
-        /// 
-        /// Aqui va el código de donde se spawnearán los personajes en el lugar.
-        /// 
-
         PlayerInputMenu.instance.startBattleButton.SetActive(true);
+
     }
 
     public void ReturnToPoint()
@@ -363,6 +352,7 @@ public class GameManager : MonoBehaviour
     
     private void InitGameManagerValues()
     {
+        shouldSpawnAtRandomPoint = true;
         matchEnded = false;
         totalTurnPoints = 2;
         currentActionCost = 1;
