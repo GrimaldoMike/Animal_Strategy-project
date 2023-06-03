@@ -131,8 +131,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        PlayerInputMenu.instance.startBattleButton.SetActive(true);
-
     }
 
     public void ReturnToPoint()

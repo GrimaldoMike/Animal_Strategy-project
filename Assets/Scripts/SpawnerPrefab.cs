@@ -52,11 +52,13 @@ public class SpawnerPrefab : MonoBehaviour
                 {
                     int pos = Random.Range(0, spawnPointsCount);
                     SpawnerPrefab.instance.SpawnPrefabInResources("Player", GameManager.instance.playerSpawnPoints[pos]);
+                    SFXManager.instance.UISelect.Play();
                 }
             }
             else
             {
                 {
+                    SFXManager.instance.UICancel.Play();
                     PlayerInputMenu.instance.ShowErrorText("No more units to Deploy");
                     Debug.Log("No se spawnearan mas unidadess.");
                 }
@@ -64,11 +66,10 @@ public class SpawnerPrefab : MonoBehaviour
         }
         else
         {
+            SFXManager.instance.UICancel.Play();
             PlayerInputMenu.instance.ShowErrorText("No Enemies in this Level");
             Debug.Log("No hay Enemigos en el nivel, agrega enemigos antes de comenzar.");
         }
-
-
     }
     public void DeSpawnCharactersInPlay()
     {
@@ -82,7 +83,8 @@ public class SpawnerPrefab : MonoBehaviour
             {
                 characterFound = true;
                 tempList.Remove(cc);
-                Destroy(cc);
+                Destroy(cc.gameObject); //Se usa remove gameObject para quitar todo el Prefab, si se pone solamente "cc" quita el script CharacterController.
+                SFXManager.instance.UICancel.Play();
                 return;
             }
         }
@@ -90,6 +92,7 @@ public class SpawnerPrefab : MonoBehaviour
         if (characterFound == false)
         {
             {
+                SFXManager.instance.UICancel.Play();
                 PlayerInputMenu.instance.ShowErrorText("No character to Retreat");
                 Debug.Log("No hay personaje que se deba DeSpawnear");
             }

@@ -14,7 +14,7 @@ public class PlayerInputMenu : MonoBehaviour
         instance = this;
     }
 
-    public GameObject inputMenu, moveMenu, meleeMenu, fireMenu, moveReturnMenu;
+    public GameObject inputMenu, moveMenu, meleeMenu, fireMenu, moveReturnMenu, spawnerBG;
 
     public TMP_Text turnPointsText, errorText;
     private Vector3 originalPositionErrorText;
@@ -29,8 +29,9 @@ public class PlayerInputMenu : MonoBehaviour
     public GameObject pauseScreen;
     public AudioSource music;
 
-    public TMP_Text battleStateLabel;
+    public TMP_Text battleStateLabel, moveMapInfoLabel;
     public GameObject battleStatePlayerLabel, battleStateEnemyLabel;
+    public GameObject unitsMenuButton, showMapButton;
 
     private void Start()
     {
@@ -64,14 +65,22 @@ public class PlayerInputMenu : MonoBehaviour
         turnPointsText.gameObject.SetActive(false);
         errorText.gameObject.SetActive(false);
         battleStateLabel.gameObject.SetActive(false);
-        battleStatePlayerLabel.gameObject.SetActive(false);
-        battleStateEnemyLabel.gameObject.SetActive(false);
+        battleStatePlayerLabel.SetActive(false);
+        battleStateEnemyLabel.SetActive(false);
         startBattleButton.SetActive(false);
         endBattleButton.SetActive(false);
+        unitsMenuButton.SetActive(false);
+        showMapButton.SetActive(false);
+        spawnerBG.SetActive(false);
+        moveMapInfoLabel.gameObject.SetActive(false);
         ShowHideTargetDisplay(false); //Cuando se regresa al menu principal, se oculta el indicador target display.
+        
+        if(GameManager.instance.activePlayer is not null)
+        {
+            if (GameManager.instance.activePlayer.isShooting == false) //Solamente no regreses la camara al personaje activo cuando no estoy disparando.
+                CameraController.instance.SetMoveTarget(GameManager.instance.activePlayer.transform.position);
+        }
 
-        if(GameManager.instance.activePlayer.isShooting == false) //Solamente no regreses la camara al personaje activo cuando no estoy disparando.
-            CameraController.instance.SetMoveTarget(GameManager.instance.activePlayer.transform.position);
     }
 
     public void ShowInputMenu()
@@ -370,12 +379,25 @@ public class PlayerInputMenu : MonoBehaviour
     //Va controlar el inicio de la pelea, cuando todas las unidades hallan sido spawneadas.
     public void StartBattle()
     {
-        if (GameManager.instance.playerTeam.Count > 0)
+        List<CharacterController> tempList = new List<CharacterController>();
+        tempList.AddRange(FindObjectsOfType<CharacterController>()); //Se guarda cada personaje con script de CharacterController(los que se mueven en el plano).
+
+        bool characterFound = false;
+        foreach (CharacterController cc in tempList)
         {
+            if (cc.isEnemy == false && characterFound == false)
+            {
+                characterFound = true;
+            }
+        }
+        tempList.Clear();
+
+        if (characterFound == true)
+        {
+            GameManager.instance.SetUpCharactersInPlay();
+            HideMenus();
             startBattleButton.SetActive(false);
             BattleManager.instance.UpdateBattleState(); // Segundo update a battle PLAYERTURN o ENEMYTURN.
-
-            GameManager.instance.SetUpCharactersInPlay();
 
             ShowTurnPhases(true); //Se manda true porque es el primer turno.
         }
@@ -385,7 +407,6 @@ public class PlayerInputMenu : MonoBehaviour
             Debug.Log("Debe haber al menos un personaje jugador spawneado en el mapa");
             SFXManager.instance.UICancel.Play();
         }
-
     }
 
     public void LeaveBattle()
@@ -443,6 +464,25 @@ public class PlayerInputMenu : MonoBehaviour
         {
             StartCoroutine(WaitToEndBattlePhases(1f));
         }
+    }
+
+    public void UnitsMenu()
+    {
+        spawnerBG.SetActive(true);
+        startBattleButton.SetActive(true);
+        moveMapInfoLabel.gameObject.SetActive(false);
+        if (GameManager.instance.activePlayer.isShooting == false) //Solamente no regreses la camara al personaje activo cuando no estoy disparando.
+            CameraController.instance.SetMoveTarget(GameManager.instance.activePlayer.transform.position);
+        SFXManager.instance.UISelect.Play();
+    }
+
+    public void ShowMapMenu()
+    {
+        startBattleButton.SetActive(false);
+        spawnerBG.SetActive(false);
+        startBattleButton.SetActive(false);
+        moveMapInfoLabel.gameObject.SetActive(true);
+        SFXManager.instance.UISelect.Play();
     }
 
     public void GoToMainMenu()

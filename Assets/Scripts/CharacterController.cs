@@ -343,19 +343,7 @@ public class CharacterController : MonoBehaviour
         isKnockedOut = true; //Se activa la bandera de jugador inhabilitado para acciones.
 
         //Se remueve del juego para que no tenga acciones.
-        /*
-        GameManager.instance.allChars.Remove(this);
-        if (GameManager.instance.playerTeam.Contains(this))
-        {
-            GameManager.instance.playerTeam.Remove(this);
-        }
-        if (GameManager.instance.enemyTeam.Contains(this))
-        {
-            GameManager.instance.enemyTeam.Remove(this);
-        }
-        */
         GameManager.instance.RemoveCharacterFromPlay(this);
-
 
         if (isEnemy == false)
         {
