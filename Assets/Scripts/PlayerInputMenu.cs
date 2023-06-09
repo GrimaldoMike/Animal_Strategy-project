@@ -203,6 +203,22 @@ public class PlayerInputMenu : MonoBehaviour
             GameManager.instance.targetDisplay.transform.position = GameManager.instance.activePlayer.meleeTargets[GameManager.instance.activePlayer.currentMeleeTarget].transform.position;
             GameManager.instance.activePlayer.LookAtTarget(GameManager.instance.activePlayer.meleeTargets[GameManager.instance.activePlayer.currentMeleeTarget].transform); //Mandamos rotar al jugador al decidir a cuál enemigo mirar.
 
+            /*
+            if (GameManager.instance.activePlayer is not null)
+            {
+                if (GameManager.instance.activePlayer.isDogger == true)
+                {
+                    DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+                    dogCont.FunctionDogAttackType(true, 0);
+                }
+            }
+            else
+            {
+                Debug.Log("por algo no jala");
+            }
+            */
+
+
         }
         else
         {

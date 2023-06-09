@@ -9,25 +9,14 @@ public class CharacterController : MonoBehaviour
 {
     // <>
     //Movement variables
-    public float moveSpeed;
+    public float moveSpeed, runningSpeed;
     private Vector3 moveTarget;
     public float moveRange, runRange;
     public bool finishedMovement;
     public Vector3 originalPosition;
 
     public NavMeshAgent navAgent;
-
-    /// <summary>
-    /// Dog variables
-    /*public float w_movement; // Run value
-    public float acceleration;
-    public float decelleration;
-    public float maxWalk;
-    public float maxRun;
-    public float currentSpeed;
-    public bool isReadyToAttack;
-    */
-    /// </summary>
+    public Transform centerPoint;
 
     //Control and animation variables
     public bool isMoving, isMeleeing, isRunning;
@@ -87,7 +76,6 @@ public class CharacterController : MonoBehaviour
         maxHealth = 10f;
         currentHealth = maxHealth;
         isKnockedOut = false;
-        //Debug.Log("Llegue AWAKE de CharacterController");
     }
 
     // Start is called before the first frame update
@@ -104,7 +92,6 @@ public class CharacterController : MonoBehaviour
             CharacterMovement();
             ShotLineController();
             AnimationController();
-            PhaseThroughObjectsController();
         }
     }
 
@@ -116,7 +103,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    private void CharacterMovement()
+    public void CharacterMovement()
     {
         if (isMoving == true)
         {
@@ -125,11 +112,18 @@ public class CharacterController : MonoBehaviour
             {
                 CameraController.instance.SetMoveTarget(transform.position); //Mueve la cámara hacia la posición del personaje.
 
-                if (Vector3.Distance(transform.position, moveTarget) < 0.2f) //Si el jugador llegó a su destino (o a una distancia muy corta)
+                //if (Vector3.Distance(transform.position, moveTarget) < 0.2f) //Si el jugador llegó a su destino (o a una distancia muy corta)
+                if (Vector3.Distance(centerPoint.position, moveTarget) < 0.2f) //Si el jugador llegó a su destino (o a una distancia muy corta)
                 {
                     isMoving = false;
                     isRunning = false;
-                    if(isEnemy == false)
+                    if (isDogger == true)
+                    {
+                        DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+                        dogCont.FunctionDogWalking(isMoving, isRunning);
+                    }
+
+                    if (isEnemy == false)
                     {
                         MovementDecided();
                     }
@@ -142,7 +136,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    //Funcion que espera a que se acepte o no el movimiento. Pudiese poner un timer en el futuro para q
+    //Funcion que espera a que se acepte o no el movimiento. Pudiese poner un timer en el futuro para que no sea infinito el tiempo.
     private void MovementDecided()
     {
         if (PlayerInputMenu.instance.moveReturnMenu.activeSelf == false)
@@ -179,78 +173,6 @@ public class CharacterController : MonoBehaviour
                 anim.SetTrigger("a_die");
             }
         }
-        /*else
-        {
-            if (isRunning)
-            {
-                currentSpeed = maxRun;
-            }
-            if (!isRunning)
-            {
-                currentSpeed = maxWalk;
-            }
-            if (isMoving && (w_movement < currentSpeed)) // If walking
-            {
-                w_movement += Time.deltaTime * acceleration;
-            }
-            if (isMoving && !isRunning && w_movement > currentSpeed) // Slow down
-            {
-                w_movement -= Time.deltaTime * decelleration;
-
-            }
-            if (!isMoving && w_movement > 0.0f) // If no longer walking
-            {
-                w_movement -= Time.deltaTime * decelleration;
-            }
-            if (isReadyToAttack == true)
-            {
-                anim.SetBool("AttackReady_b", true);
-                anim.SetInteger("AttackType_int", 0);
-            }
-            else
-            {
-                anim.SetInteger("AttackType_int", 0);
-                anim.SetBool("AttackReady_b", false);
-            }
-            if (isMeleeing)
-            {
-                anim.SetInteger("AttackType_int", 1);
-            }
-            else
-            {
-                anim.SetInteger("AttackType_int", 0);
-            }
-            if (isDamaged == true)
-            {
-                isDamaged = false;
-                anim.SetBool("AttackReady_b", true);
-                anim.SetInteger("AttackType_int", 3);
-            }
-            else
-            {
-                anim.SetInteger("AttackType_int", 0);
-                anim.SetBool("AttackReady_b", false);
-            }
-            if (isKnockedOut == true)
-            {
-                isKnockedOut = false;
-                anim.SetBool("Death_b", true);
-            }
-
-            anim.SetFloat("Movement_f", w_movement); // Set movement speed for all required parameters
-            navAgent.speed = w_movement;
-
-            if(w_movement > 0){
-                anim.SetInteger("AttackType_int", 0);
-                anim.SetBool("AttackReady_b", false);
-            }
-            else if(!isReadyToAttack && !isMeleeing && !isKnockedOut && !isMoving && !isRunning && !isDamaged)
-            {
-                anim.SetInteger("ActionType_int", 0);
-            }
-        }*/
-
-
     }
 
     public void MoveToPoint(Vector3 pointToMoveTo)
@@ -262,13 +184,22 @@ public class CharacterController : MonoBehaviour
         moveTarget = pointToMoveTo;
 
         navAgent.SetDestination(moveTarget);
-        
+
+        navAgent.speed = moveSpeed;
+
         //Este if solo funciona porque sabemos que "currentActionCost" vale 1 cuando camina y 2 cuando corre. Se deberá modificar si existen más puntos de accion cuando hay movimiento.
         if (GameManager.instance.currentActionCost >= 2)
         {
             isRunning = true;
+            navAgent.speed = runningSpeed;
         }
         isMoving = true;
+
+        if (isDogger == true)
+        {
+            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+            dogCont.FunctionDogWalking(isMoving, isRunning);
+        }
     }
 
     //Revisa si hay contrincantes a la distancia de "meleeRange". Si es así, los coloca en la lista de objetivos meleeTargets.
@@ -309,8 +240,12 @@ public class CharacterController : MonoBehaviour
 
     public void DoMelee()
     {
-        //meleeTargets[currentMeleeTarget].gameObject.SetActive(false); //Se agregó currentMeleeTarget para saber quién es el objetivo a golpear.
         isMeleeing = true;
+        if (isDogger == true)
+        {
+            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+            dogCont.FunctionDogAttackType(isMeleeing, 1);
+        }
         SFXManager.instance.meleeHit.Play();
         meleeTargets[currentMeleeTarget].TakeDamage(meleeDamage);
     }
@@ -332,6 +267,11 @@ public class CharacterController : MonoBehaviour
         {
             isDamaged = true;
             SFXManager.instance.takeDamage.Play();
+            if (isDogger == true)
+            {
+                DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+                dogCont.FunctionDogAttackType(true,3);
+            }
         }
         UpdateHealthDisplay();
     }
@@ -341,6 +281,12 @@ public class CharacterController : MonoBehaviour
     {
         navAgent.enabled = false; //Desactiva script de navegacion.
         isKnockedOut = true; //Se activa la bandera de jugador inhabilitado para acciones.
+
+        if(isDogger == true)
+        {
+            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+            dogCont.FunctionDogKnockedOut();
+        }
 
         //Se remueve del juego para que no tenga acciones.
         GameManager.instance.RemoveCharacterFromPlay(this);
@@ -466,12 +412,17 @@ public class CharacterController : MonoBehaviour
             shootLine.gameObject.SetActive(true);
             shotRemainCounter = shotRemainTime;
 
+            if (isDogger == true)
+            {
+                DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+                StartCoroutine(dogCont.FunctionDogAction(isShooting, 6)); //ActionType - 6 Howl
+            }
             SFXManager.instance.PlayShoot();
 
         }
     }
 
-    private void ShotLineController()
+    public void ShotLineController()
     {
         if(shotRemainCounter > 0)
         {
@@ -553,73 +504,13 @@ public class CharacterController : MonoBehaviour
     {
         isDefending = defend;
         defendObject.SetActive(isDefending);
-    }
 
-    private void PhaseThroughObjectsController()
-    {
-        /*
-        if (isMoving)
+        if (isDogger == true)
         {
-            if(isEnemy == false)
-            {
-                GetComponent<Collider>().enabled = false; 
-            }
-        }
-        else
-        {
-            GetComponent<Collider>().enabled = true;
-        }
-        */
-    }
-
-    //Revisa si hay contrincantes a la distancia de "meleeRange". Si es así, los coloca en la lista de objetivos meleeTargets.
-    /*public void GetMeleeTargetsDogs()
-    {
-        meleeTargets.Clear();
-
-        if (isKnockedOut == false) // Se valida si un personaje en el suelo es un objetivo para melee.
-        {
-            if (isEnemy == false)
-            {
-                foreach (CharacterController cc in GameManager.instance.enemyTeam) //Revisa objetivos del jugador.
-                {
-                    if (Vector3.Distance(transform.position, cc.transform.position) < meleeRange)
-                    {
-                        meleeTargets.Add(cc);
-                    }
-                }
-            }
-            else
-            {
-                foreach (CharacterController cc in GameManager.instance.playerTeam) //Revivsa objetivos del enemigo.
-                {
-                    if (Vector3.Distance(transform.position, cc.transform.position) < meleeRange)
-                    {
-                        meleeTargets.Add(cc);
-                    }
-                }
-            }
-        }
-
-        //Revisamos si el numero de objetivos cambio al navegar en los menus.
-        if (currentMeleeTarget >= meleeTargets.Count)
-        {
-            currentMeleeTarget = 0;
+            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
+            dogCont.FunctionDogAttackType(isDefending, 0); //ActionType - 6 Howl
         }
     }
-    /*
-    public void SetReadyPosition()
-    {
-        GetMeleeTargetsDogs();
-        //Revisamos si el numero de objetivos cambio al navegar en los menus.
-        if (meleeTargets.Count >= 1)
-        {
-            isReadyToAttack = true;
-            meleeTargets.Clear();
-        }
-    }
-    */
-
 
     private void InitCharacterControllerValues()
     {
@@ -639,4 +530,22 @@ public class CharacterController : MonoBehaviour
         endRotationTarget = this.transform;
     }
 
+
+    //Clase y funcion que transforma frames a un Yield en decimales de segundos.
+    public static class WaitFor
+    {
+        public static IEnumerator Frames(int frameCount)
+        {
+            if (frameCount <= 0)
+            {
+                throw new System.ArgumentOutOfRangeException("frameCount", "Cannot wait for less that 1 frame");
+            }
+
+            while (frameCount > 0)
+            {
+                frameCount--;
+                yield return null;
+            }
+        }
+    }
 }

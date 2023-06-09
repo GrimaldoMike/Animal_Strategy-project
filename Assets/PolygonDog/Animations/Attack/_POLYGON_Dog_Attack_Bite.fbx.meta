@@ -1,179 +1,515 @@
 fileFormatVersion: 2
 guid: 0818d4b86aea6254b8b3fb7654453902
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: backFoot_L0_0_joint
-    100002: backFoot_R0_0_joint
-    100004: backLeg_L0_0_joint
-    100006: backLeg_L0_1_joint
-    100008: backLeg_L0_2_joint
-    100010: backLeg_L0_3_joint
-    100012: backLeg_R0_0_joint
-    100014: backLeg_R0_1_joint
-    100016: backLeg_R0_2_joint
-    100018: backLeg_R0_3_joint
-    100020: base_joint
-    100022: cornerLip_L0_0_joint
-    100024: cornerLip_R0_0_joint
-    100026: ear_L0_0_joint
-    100028: ear_L0_1_joint
-    100030: ear_L0_2_joint
-    100032: ear_R0_0_joint
-    100034: ear_R0_1_joint
-    100036: ear_R0_2_joint
-    100038: eye_L0_0_joint
-    100040: eye_R0_0_joint
-    100042: frontFoot_L0_0_joint
-    100044: frontFoot_R0_0_joint
-    100046: frontLeg_L0_0_joint
-    100048: frontLeg_L0_1_joint
-    100050: frontLeg_L0_2_joint
-    100052: frontLeg_L0_3_joint
-    100054: frontLeg_R0_0_joint
-    100056: frontLeg_R0_1_joint
-    100058: frontLeg_R0_2_joint
-    100060: frontLeg_R0_3_joint
-    100062: IK_backFoot_L_0_joint
-    100064: IK_backFoot_R_0_joint
-    100066: IK_frontFoot_L_0_joint
-    100068: IK_frontFoot_R_0_joint
-    100070: IK_root_joint
-    100072: jaw_C0_0_joint
-    100074: lowerLip_L0_0_joint
-    100076: lowerLip_L1_0_joint
-    100078: lowerLip_R0_0_joint
-    100080: lowerLip_R1_0_joint
-    100082: neck_C0_0_joint
-    100084: neck_C0_1_joint
-    100086: neck_C0_2_joint
-    100088: neck_C0_3_joint
-    100090: neck_C0_head_joint
-    100092: root_joint
-    100094: shoulder_L0_0_joint
-    100096: shoulder_R0_0_joint
-    100098: snout_C0_0_joint
-    100100: spine_C0_0_joint
-    100102: spine_C0_1_joint
-    100104: spine_C0_2_joint
-    100106: spine_C0_3_joint
-    100108: spine_C0_4_joint
-    100110: spine_C0_hip_joint
-    100112: tail_C0_0_joint
-    100114: tail_C0_1_joint
-    100116: tail_C0_2_joint
-    100118: tail_C0_3_joint
-    100120: tail_C0_4_joint
-    100122: tongue_C0_0_joint
-    100124: tongue_C0_1_joint
-    100126: tongue_C0_2_joint
-    100128: //RootNode
-    100130: upperLip_L0_0_joint
-    100132: upperLip_L1_0_joint
-    100134: upperLip_R0_0_joint
-    100136: upperLip_R1_0_joint
-    100138: earFloppy_L0_0_joint
-    100140: earFloppy_L0_1_joint
-    100142: earFloppy_L0_2_joint
-    100144: earFloppy_L0_3_joint
-    100146: earFloppy_R0_0_joint
-    100148: earFloppy_R0_1_joint
-    100150: earFloppy_R0_2_joint
-    100152: earFloppy_R0_3_joint
-    100154: earWide_L0_0_joint
-    100156: earWide_L0_1_joint
-    100158: earWide_L0_2_joint
-    100160: earWide_R0_0_joint
-    100162: earWide_R0_1_joint
-    100164: earWide_R0_2_joint
-    400000: backFoot_L0_0_joint
-    400002: backFoot_R0_0_joint
-    400004: backLeg_L0_0_joint
-    400006: backLeg_L0_1_joint
-    400008: backLeg_L0_2_joint
-    400010: backLeg_L0_3_joint
-    400012: backLeg_R0_0_joint
-    400014: backLeg_R0_1_joint
-    400016: backLeg_R0_2_joint
-    400018: backLeg_R0_3_joint
-    400020: base_joint
-    400022: cornerLip_L0_0_joint
-    400024: cornerLip_R0_0_joint
-    400026: ear_L0_0_joint
-    400028: ear_L0_1_joint
-    400030: ear_L0_2_joint
-    400032: ear_R0_0_joint
-    400034: ear_R0_1_joint
-    400036: ear_R0_2_joint
-    400038: eye_L0_0_joint
-    400040: eye_R0_0_joint
-    400042: frontFoot_L0_0_joint
-    400044: frontFoot_R0_0_joint
-    400046: frontLeg_L0_0_joint
-    400048: frontLeg_L0_1_joint
-    400050: frontLeg_L0_2_joint
-    400052: frontLeg_L0_3_joint
-    400054: frontLeg_R0_0_joint
-    400056: frontLeg_R0_1_joint
-    400058: frontLeg_R0_2_joint
-    400060: frontLeg_R0_3_joint
-    400062: IK_backFoot_L_0_joint
-    400064: IK_backFoot_R_0_joint
-    400066: IK_frontFoot_L_0_joint
-    400068: IK_frontFoot_R_0_joint
-    400070: IK_root_joint
-    400072: jaw_C0_0_joint
-    400074: lowerLip_L0_0_joint
-    400076: lowerLip_L1_0_joint
-    400078: lowerLip_R0_0_joint
-    400080: lowerLip_R1_0_joint
-    400082: neck_C0_0_joint
-    400084: neck_C0_1_joint
-    400086: neck_C0_2_joint
-    400088: neck_C0_3_joint
-    400090: neck_C0_head_joint
-    400092: root_joint
-    400094: shoulder_L0_0_joint
-    400096: shoulder_R0_0_joint
-    400098: snout_C0_0_joint
-    400100: spine_C0_0_joint
-    400102: spine_C0_1_joint
-    400104: spine_C0_2_joint
-    400106: spine_C0_3_joint
-    400108: spine_C0_4_joint
-    400110: spine_C0_hip_joint
-    400112: tail_C0_0_joint
-    400114: tail_C0_1_joint
-    400116: tail_C0_2_joint
-    400118: tail_C0_3_joint
-    400120: tail_C0_4_joint
-    400122: tongue_C0_0_joint
-    400124: tongue_C0_1_joint
-    400126: tongue_C0_2_joint
-    400128: //RootNode
-    400130: upperLip_L0_0_joint
-    400132: upperLip_L1_0_joint
-    400134: upperLip_R0_0_joint
-    400136: upperLip_R1_0_joint
-    400138: earFloppy_L0_0_joint
-    400140: earFloppy_L0_1_joint
-    400142: earFloppy_L0_2_joint
-    400144: earFloppy_L0_3_joint
-    400146: earFloppy_R0_0_joint
-    400148: earFloppy_R0_1_joint
-    400150: earFloppy_R0_2_joint
-    400152: earFloppy_R0_3_joint
-    400154: earWide_L0_0_joint
-    400156: earWide_L0_1_joint
-    400158: earWide_L0_2_joint
-    400160: earWide_R0_0_joint
-    400162: earWide_R0_1_joint
-    400164: earWide_R0_2_joint
-    7400000: _POLYGON_Dog_Attack_Bite
-    9500000: //RootNode
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: backFoot_L0_0_joint
+  - first:
+      1: 100002
+    second: backFoot_R0_0_joint
+  - first:
+      1: 100004
+    second: backLeg_L0_0_joint
+  - first:
+      1: 100006
+    second: backLeg_L0_1_joint
+  - first:
+      1: 100008
+    second: backLeg_L0_2_joint
+  - first:
+      1: 100010
+    second: backLeg_L0_3_joint
+  - first:
+      1: 100012
+    second: backLeg_R0_0_joint
+  - first:
+      1: 100014
+    second: backLeg_R0_1_joint
+  - first:
+      1: 100016
+    second: backLeg_R0_2_joint
+  - first:
+      1: 100018
+    second: backLeg_R0_3_joint
+  - first:
+      1: 100020
+    second: base_joint
+  - first:
+      1: 100022
+    second: cornerLip_L0_0_joint
+  - first:
+      1: 100024
+    second: cornerLip_R0_0_joint
+  - first:
+      1: 100026
+    second: ear_L0_0_joint
+  - first:
+      1: 100028
+    second: ear_L0_1_joint
+  - first:
+      1: 100030
+    second: ear_L0_2_joint
+  - first:
+      1: 100032
+    second: ear_R0_0_joint
+  - first:
+      1: 100034
+    second: ear_R0_1_joint
+  - first:
+      1: 100036
+    second: ear_R0_2_joint
+  - first:
+      1: 100038
+    second: eye_L0_0_joint
+  - first:
+      1: 100040
+    second: eye_R0_0_joint
+  - first:
+      1: 100042
+    second: frontFoot_L0_0_joint
+  - first:
+      1: 100044
+    second: frontFoot_R0_0_joint
+  - first:
+      1: 100046
+    second: frontLeg_L0_0_joint
+  - first:
+      1: 100048
+    second: frontLeg_L0_1_joint
+  - first:
+      1: 100050
+    second: frontLeg_L0_2_joint
+  - first:
+      1: 100052
+    second: frontLeg_L0_3_joint
+  - first:
+      1: 100054
+    second: frontLeg_R0_0_joint
+  - first:
+      1: 100056
+    second: frontLeg_R0_1_joint
+  - first:
+      1: 100058
+    second: frontLeg_R0_2_joint
+  - first:
+      1: 100060
+    second: frontLeg_R0_3_joint
+  - first:
+      1: 100062
+    second: IK_backFoot_L_0_joint
+  - first:
+      1: 100064
+    second: IK_backFoot_R_0_joint
+  - first:
+      1: 100066
+    second: IK_frontFoot_L_0_joint
+  - first:
+      1: 100068
+    second: IK_frontFoot_R_0_joint
+  - first:
+      1: 100070
+    second: IK_root_joint
+  - first:
+      1: 100072
+    second: jaw_C0_0_joint
+  - first:
+      1: 100074
+    second: lowerLip_L0_0_joint
+  - first:
+      1: 100076
+    second: lowerLip_L1_0_joint
+  - first:
+      1: 100078
+    second: lowerLip_R0_0_joint
+  - first:
+      1: 100080
+    second: lowerLip_R1_0_joint
+  - first:
+      1: 100082
+    second: neck_C0_0_joint
+  - first:
+      1: 100084
+    second: neck_C0_1_joint
+  - first:
+      1: 100086
+    second: neck_C0_2_joint
+  - first:
+      1: 100088
+    second: neck_C0_3_joint
+  - first:
+      1: 100090
+    second: neck_C0_head_joint
+  - first:
+      1: 100092
+    second: root_joint
+  - first:
+      1: 100094
+    second: shoulder_L0_0_joint
+  - first:
+      1: 100096
+    second: shoulder_R0_0_joint
+  - first:
+      1: 100098
+    second: snout_C0_0_joint
+  - first:
+      1: 100100
+    second: spine_C0_0_joint
+  - first:
+      1: 100102
+    second: spine_C0_1_joint
+  - first:
+      1: 100104
+    second: spine_C0_2_joint
+  - first:
+      1: 100106
+    second: spine_C0_3_joint
+  - first:
+      1: 100108
+    second: spine_C0_4_joint
+  - first:
+      1: 100110
+    second: spine_C0_hip_joint
+  - first:
+      1: 100112
+    second: tail_C0_0_joint
+  - first:
+      1: 100114
+    second: tail_C0_1_joint
+  - first:
+      1: 100116
+    second: tail_C0_2_joint
+  - first:
+      1: 100118
+    second: tail_C0_3_joint
+  - first:
+      1: 100120
+    second: tail_C0_4_joint
+  - first:
+      1: 100122
+    second: tongue_C0_0_joint
+  - first:
+      1: 100124
+    second: tongue_C0_1_joint
+  - first:
+      1: 100126
+    second: tongue_C0_2_joint
+  - first:
+      1: 100128
+    second: //RootNode
+  - first:
+      1: 100130
+    second: upperLip_L0_0_joint
+  - first:
+      1: 100132
+    second: upperLip_L1_0_joint
+  - first:
+      1: 100134
+    second: upperLip_R0_0_joint
+  - first:
+      1: 100136
+    second: upperLip_R1_0_joint
+  - first:
+      1: 100138
+    second: earFloppy_L0_0_joint
+  - first:
+      1: 100140
+    second: earFloppy_L0_1_joint
+  - first:
+      1: 100142
+    second: earFloppy_L0_2_joint
+  - first:
+      1: 100144
+    second: earFloppy_L0_3_joint
+  - first:
+      1: 100146
+    second: earFloppy_R0_0_joint
+  - first:
+      1: 100148
+    second: earFloppy_R0_1_joint
+  - first:
+      1: 100150
+    second: earFloppy_R0_2_joint
+  - first:
+      1: 100152
+    second: earFloppy_R0_3_joint
+  - first:
+      1: 100154
+    second: earWide_L0_0_joint
+  - first:
+      1: 100156
+    second: earWide_L0_1_joint
+  - first:
+      1: 100158
+    second: earWide_L0_2_joint
+  - first:
+      1: 100160
+    second: earWide_R0_0_joint
+  - first:
+      1: 100162
+    second: earWide_R0_1_joint
+  - first:
+      1: 100164
+    second: earWide_R0_2_joint
+  - first:
+      4: 400000
+    second: backFoot_L0_0_joint
+  - first:
+      4: 400002
+    second: backFoot_R0_0_joint
+  - first:
+      4: 400004
+    second: backLeg_L0_0_joint
+  - first:
+      4: 400006
+    second: backLeg_L0_1_joint
+  - first:
+      4: 400008
+    second: backLeg_L0_2_joint
+  - first:
+      4: 400010
+    second: backLeg_L0_3_joint
+  - first:
+      4: 400012
+    second: backLeg_R0_0_joint
+  - first:
+      4: 400014
+    second: backLeg_R0_1_joint
+  - first:
+      4: 400016
+    second: backLeg_R0_2_joint
+  - first:
+      4: 400018
+    second: backLeg_R0_3_joint
+  - first:
+      4: 400020
+    second: base_joint
+  - first:
+      4: 400022
+    second: cornerLip_L0_0_joint
+  - first:
+      4: 400024
+    second: cornerLip_R0_0_joint
+  - first:
+      4: 400026
+    second: ear_L0_0_joint
+  - first:
+      4: 400028
+    second: ear_L0_1_joint
+  - first:
+      4: 400030
+    second: ear_L0_2_joint
+  - first:
+      4: 400032
+    second: ear_R0_0_joint
+  - first:
+      4: 400034
+    second: ear_R0_1_joint
+  - first:
+      4: 400036
+    second: ear_R0_2_joint
+  - first:
+      4: 400038
+    second: eye_L0_0_joint
+  - first:
+      4: 400040
+    second: eye_R0_0_joint
+  - first:
+      4: 400042
+    second: frontFoot_L0_0_joint
+  - first:
+      4: 400044
+    second: frontFoot_R0_0_joint
+  - first:
+      4: 400046
+    second: frontLeg_L0_0_joint
+  - first:
+      4: 400048
+    second: frontLeg_L0_1_joint
+  - first:
+      4: 400050
+    second: frontLeg_L0_2_joint
+  - first:
+      4: 400052
+    second: frontLeg_L0_3_joint
+  - first:
+      4: 400054
+    second: frontLeg_R0_0_joint
+  - first:
+      4: 400056
+    second: frontLeg_R0_1_joint
+  - first:
+      4: 400058
+    second: frontLeg_R0_2_joint
+  - first:
+      4: 400060
+    second: frontLeg_R0_3_joint
+  - first:
+      4: 400062
+    second: IK_backFoot_L_0_joint
+  - first:
+      4: 400064
+    second: IK_backFoot_R_0_joint
+  - first:
+      4: 400066
+    second: IK_frontFoot_L_0_joint
+  - first:
+      4: 400068
+    second: IK_frontFoot_R_0_joint
+  - first:
+      4: 400070
+    second: IK_root_joint
+  - first:
+      4: 400072
+    second: jaw_C0_0_joint
+  - first:
+      4: 400074
+    second: lowerLip_L0_0_joint
+  - first:
+      4: 400076
+    second: lowerLip_L1_0_joint
+  - first:
+      4: 400078
+    second: lowerLip_R0_0_joint
+  - first:
+      4: 400080
+    second: lowerLip_R1_0_joint
+  - first:
+      4: 400082
+    second: neck_C0_0_joint
+  - first:
+      4: 400084
+    second: neck_C0_1_joint
+  - first:
+      4: 400086
+    second: neck_C0_2_joint
+  - first:
+      4: 400088
+    second: neck_C0_3_joint
+  - first:
+      4: 400090
+    second: neck_C0_head_joint
+  - first:
+      4: 400092
+    second: root_joint
+  - first:
+      4: 400094
+    second: shoulder_L0_0_joint
+  - first:
+      4: 400096
+    second: shoulder_R0_0_joint
+  - first:
+      4: 400098
+    second: snout_C0_0_joint
+  - first:
+      4: 400100
+    second: spine_C0_0_joint
+  - first:
+      4: 400102
+    second: spine_C0_1_joint
+  - first:
+      4: 400104
+    second: spine_C0_2_joint
+  - first:
+      4: 400106
+    second: spine_C0_3_joint
+  - first:
+      4: 400108
+    second: spine_C0_4_joint
+  - first:
+      4: 400110
+    second: spine_C0_hip_joint
+  - first:
+      4: 400112
+    second: tail_C0_0_joint
+  - first:
+      4: 400114
+    second: tail_C0_1_joint
+  - first:
+      4: 400116
+    second: tail_C0_2_joint
+  - first:
+      4: 400118
+    second: tail_C0_3_joint
+  - first:
+      4: 400120
+    second: tail_C0_4_joint
+  - first:
+      4: 400122
+    second: tongue_C0_0_joint
+  - first:
+      4: 400124
+    second: tongue_C0_1_joint
+  - first:
+      4: 400126
+    second: tongue_C0_2_joint
+  - first:
+      4: 400128
+    second: //RootNode
+  - first:
+      4: 400130
+    second: upperLip_L0_0_joint
+  - first:
+      4: 400132
+    second: upperLip_L1_0_joint
+  - first:
+      4: 400134
+    second: upperLip_R0_0_joint
+  - first:
+      4: 400136
+    second: upperLip_R1_0_joint
+  - first:
+      4: 400138
+    second: earFloppy_L0_0_joint
+  - first:
+      4: 400140
+    second: earFloppy_L0_1_joint
+  - first:
+      4: 400142
+    second: earFloppy_L0_2_joint
+  - first:
+      4: 400144
+    second: earFloppy_L0_3_joint
+  - first:
+      4: 400146
+    second: earFloppy_R0_0_joint
+  - first:
+      4: 400148
+    second: earFloppy_R0_1_joint
+  - first:
+      4: 400150
+    second: earFloppy_R0_2_joint
+  - first:
+      4: 400152
+    second: earFloppy_R0_3_joint
+  - first:
+      4: 400154
+    second: earWide_L0_0_joint
+  - first:
+      4: 400156
+    second: earWide_L0_1_joint
+  - first:
+      4: 400158
+    second: earWide_L0_2_joint
+  - first:
+      4: 400160
+    second: earWide_R0_0_joint
+  - first:
+      4: 400162
+    second: earWide_R0_1_joint
+  - first:
+      4: 400164
+    second: earWide_R0_2_joint
+  - first:
+      74: 7400000
+    second: _POLYGON_Dog_Attack_Bite
+  - first:
+      95: 9500000
+    second: //RootNode
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -182,6 +518,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 0
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -191,7 +528,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -202,6 +539,7 @@ ModelImporter:
     - serializedVersion: 16
       name: _POLYGON_Dog_Attack_Bite
       takeName: Take 001
+      internalID: 0
       firstFrame: 1
       lastFrame: 36
       wrapMode: 0
@@ -211,7 +549,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -234,25 +572,35 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 0
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: 1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 2
@@ -261,10 +609,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 2
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -274,13 +622,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: root_joint
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

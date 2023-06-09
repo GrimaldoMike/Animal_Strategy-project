@@ -98,7 +98,10 @@ public class CameraController : MonoBehaviour
                 if (!freeCameraIsReturning) //No valida varios Tab a la vez hasta que  alla vuelto.
                 {
                     freeCameraIsReturning = true;
-                    SetMoveTarget(GameManager.instance.activePlayer.transform.position);
+                    if (GameManager.instance.activePlayer is not null)
+                    {
+                        SetMoveTarget(GameManager.instance.activePlayer.transform.position);
+                    }
                 }
             }
         }
