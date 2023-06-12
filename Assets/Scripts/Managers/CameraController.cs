@@ -106,6 +106,13 @@ public class CameraController : MonoBehaviour
             }
         }
     }
+    public void SnapBackToPlayerUI(GameObject gObj)
+    {
+        if (gObj is not null)
+        {
+            SetMoveTarget(gObj.transform.position);
+        }
+    }
 
     //Se encarga de mover la cámara en 4 diferentes ángulos alrededor del jugador activo. 
     //Se utiliza Q y E para rotar.
@@ -161,7 +168,7 @@ public class CameraController : MonoBehaviour
     {
         playerCamMoveSpeed = 5f;
         freeCameraIsReturning = false;
-        SnapBackToPlayer(true);
+        //SnapBackToPlayer(true);
         fireCamViewAngle = 30f;
         targetCamViewAngle = 45f;
     }

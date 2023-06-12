@@ -5,37 +5,6 @@ using UnityEngine;
 
 public class DogAnimationTest : CharacterController
 {
-    public enum DogTypeList
-    {
-        Coyote,
-        Dalmatian,
-        DalmatianCollar,
-        Doberman,
-        DobermanCollar,
-        Fox,
-        GermanShepherd,
-        GermanShepherdCollar,
-        GoldenRetriever,
-        GoldenRetrieverCollar,
-        DogGreyhound,
-        GreyhoundCollar,
-        HellHound,
-        Husky,
-        HuskyCollar,
-        Labrador,
-        LabradorCollar,
-        Pointer,
-        PointerCollar,
-        Ridgeback,
-        RidgebackCollar,
-        Robot,
-        Scifi,
-        Shiba,
-        Shiba_Collar,
-        Wolf,
-        ZombieDoberman,
-        ZombieGermanShepherd
-    };
     Transform[] children;
     static private string[] dogLabels;
     static private string[] DogNewTypes; // Dog Types
@@ -108,7 +77,7 @@ public class DogAnimationTest : CharacterController
         if (GameManager.instance.isPaused == false)
         {
             CharacterMovement();
-            //ShotLineController();
+            ShotLineController();
             DogAnimationController();
         }
     }
@@ -387,7 +356,7 @@ public class DogAnimationTest : CharacterController
         dogLabels = new string[] // Labels for UI
         {
         "Attack: ",
-        "Second Attack: ",
+        "Attack Type: ",
         "Forward: ",
         "Backward: ",
         "Left: ",

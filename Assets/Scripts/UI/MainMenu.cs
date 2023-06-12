@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        PlayerPrefs.DeleteAll(); // Se remueven todas las variables guardadas.
         SceneManager.LoadScene(levelToLoad);
     }
 

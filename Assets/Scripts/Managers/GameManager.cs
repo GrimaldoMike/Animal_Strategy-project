@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
+        AddThePersistentCharacters();
     }
     public CharacterController activePlayer;
 
@@ -37,6 +38,9 @@ public class GameManager : MonoBehaviour
 
     public bool isPaused;
     public bool lastTurnBelongsToEnemy;
+
+    //Persistent characters
+    public List<Character> dogPlayers;
 
 
     // Start is called before the first frame update
@@ -347,7 +351,19 @@ public class GameManager : MonoBehaviour
             enemyTeam.Remove(chara);
         }
     }
-    
+
+    private void AddThePersistentCharacters()
+    {
+        SaveLoad.Save();
+        SaveLoad.Load();
+        //Si existe un save file guardado
+        if (SaveLoad.savedGames.Count > 0)
+        {
+            Game.current = new Game();
+
+            dogPlayers = Game.current.dogCharacters;
+        }
+    }
     private void InitGameManagerValues()
     {
         shouldSpawnAtRandomPoint = true;

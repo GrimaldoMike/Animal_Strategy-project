@@ -4131,7 +4131,7 @@ GameObject:
   - component: {fileID: 3843894222587564872}
   - component: {fileID: 3843894222587564874}
   m_Layer: 0
-  m_Name: Dog_GermanShepherd_01
+  m_Name: GermanShepherd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

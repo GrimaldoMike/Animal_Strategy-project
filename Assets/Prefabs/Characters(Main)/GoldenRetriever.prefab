@@ -2569,7 +2569,7 @@ GameObject:
   - component: {fileID: 8468715602046185934}
   - component: {fileID: 8468715602046185935}
   m_Layer: 0
-  m_Name: Dog_GoldenRetrieve_01
+  m_Name: GoldenRetriever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

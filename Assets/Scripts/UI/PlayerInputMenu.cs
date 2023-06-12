@@ -487,8 +487,9 @@ public class PlayerInputMenu : MonoBehaviour
         spawnerBG.SetActive(true);
         startBattleButton.SetActive(true);
         moveMapInfoLabel.gameObject.SetActive(false);
-        if (GameManager.instance.activePlayer.isShooting == false) //Solamente no regreses la camara al personaje activo cuando no estoy disparando.
+        /*if (GameManager.instance.activePlayer.isShooting == false) //Solamente no regreses la camara al personaje activo cuando no estoy disparando.
             CameraController.instance.SetMoveTarget(GameManager.instance.activePlayer.transform.position);
+        */
         SFXManager.instance.UISelect.Play();
     }
 
