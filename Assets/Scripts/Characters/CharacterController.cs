@@ -522,7 +522,7 @@ public class CharacterController : MonoBehaviour
         UpdateHealthDisplay(); //Inicializamos el UI de Health.
         shootLine.transform.position = Vector3.zero;
         shootLine.transform.rotation = Quaternion.identity;
-        shootLine.transform.SetParent(null);
+        shootLine.transform.SetParent(gameObject.transform);
         shotRemainTime = 0.5f;
         shotRemainCounter = shotRemainTime;
         rotateSpeed = 45f;

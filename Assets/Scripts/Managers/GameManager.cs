@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     public bool shouldSpawnAtRandomPoint;
     public List<Transform> playerSpawnPoints = new List<Transform>();
     public List<Transform> enemySpawnPoints = new List<Transform>();
+    public List<Vector3> backupSpawnPoints = new List<Vector3>();
+    private static Vector3 spawnVector3;
+
 
     public bool matchEnded;
     public string levelToLoad;
@@ -137,6 +140,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Funcion que regresa al Player si decide siempre no moverse al punto final.
     public void ReturnToPoint()
     {
         activePlayer.transform.position = activePlayer.originalPosition;
@@ -364,6 +368,41 @@ public class GameManager : MonoBehaviour
             dogPlayers = Game.current.dogCharacters;
         }
     }
+
+    //Funcion que modifica la lista interna de Player o Enemy spawn positions. Agrega o quita spawn positions
+    public int AddRemoveFromSpawnPointsList(Transform despawnTranform)
+    {
+        Vector3 vectToTransform;
+        if (despawnTranform is not null) // Voy a Despawnear un pesonaje
+        {
+            for (int i = 0; i < backupSpawnPoints.Count; i++) //Recorremos el arreglo
+            {
+                vectToTransform = new Vector3(despawnTranform.position.x, despawnTranform.position.y, despawnTranform.position.z);
+                //if (backupSpawnPoints[i].position == despawnTranform.position) // Encontró un match de transform.position, se liberará ese espacio.
+                if (vectToTransform == despawnTranform.position) 
+                {
+                    backupSpawnPoints[i] = Vector3.zero;
+                    return i;
+                }
+            }
+            return -1;
+        }
+        else // Voy a spawnear un personaje.
+        {
+            //Primero, buscamos la posición del primer spawnpoint quitado
+            for (int i = 0; i < backupSpawnPoints.Count; i++)
+            {
+                if (backupSpawnPoints[i] == Vector3.zero) // Encontró un espacio libre, se usará esa posición y se devolverá como return.
+                {
+                    vectToTransform = new Vector3(playerSpawnPoints[i].position.x, playerSpawnPoints[i].position.y, playerSpawnPoints[i].position.z);
+                    backupSpawnPoints[i] = vectToTransform;
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
     private void InitGameManagerValues()
     {
         shouldSpawnAtRandomPoint = true;
@@ -372,5 +411,11 @@ public class GameManager : MonoBehaviour
         currentActionCost = 1;
         isPaused = false;
         lastTurnBelongsToEnemy = false;
+
+        spawnVector3 = Vector3.zero;
+        for (int i = 0; i < playerSpawnPoints.Count; i++)
+        {
+            backupSpawnPoints.Add(spawnVector3);
+        }
     }
 }

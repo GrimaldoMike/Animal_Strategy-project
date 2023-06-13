@@ -404,7 +404,7 @@ public class DogAnimationTest : CharacterController
         currentMeleeTarget = 0; currentShootTarget = 0; //Default no hay enemigos en rango.
         UpdateHealthDisplay(); //Inicializamos el UI de Health.
         shootLine.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        shootLine.transform.SetParent(null);
+        shootLine.transform.SetParent(gameObject.transform);
         shotRemainTime = 0.5f;
         rotateSpeed = 45f;
         isRotating = false;
@@ -556,6 +556,5 @@ public class DogAnimationTest : CharacterController
         yield return StartCoroutine(WaitFor.Frames(timeToWaitPerAnimation));
 
     }
-
 
 }
