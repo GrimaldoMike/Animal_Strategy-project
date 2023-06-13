@@ -422,7 +422,7 @@ Transform:
   - {fileID: 6737014627575971639}
   - {fileID: 1598135218}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6737014628413729893
 MonoBehaviour:
@@ -461,6 +461,7 @@ MonoBehaviour:
   - {fileID: 6737014629262784487}
   - {fileID: 6737014628945306396}
   - {fileID: 6737014628735430706}
+  backupSpawnPoints: []
   matchEnded: 0
   levelToLoad: Battle 2
   isPaused: 0

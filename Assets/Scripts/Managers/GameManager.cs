@@ -377,9 +377,8 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < backupSpawnPoints.Count; i++) //Recorremos el arreglo
             {
-                vectToTransform = new Vector3(despawnTranform.position.x, despawnTranform.position.y, despawnTranform.position.z);
-                //if (backupSpawnPoints[i].position == despawnTranform.position) // Encontró un match de transform.position, se liberará ese espacio.
-                if (vectToTransform == despawnTranform.position) 
+                vectToTransform = new Vector3(backupSpawnPoints[i].x, backupSpawnPoints[i].y, backupSpawnPoints[i].z);
+                if (Vector3.Distance(vectToTransform, despawnTranform.position) < 0.3f) // Debido a la imperfeccion de Vector3, se busca una distancia muy mínima para aceptar el despawn.
                 {
                     backupSpawnPoints[i] = Vector3.zero;
                     return i;

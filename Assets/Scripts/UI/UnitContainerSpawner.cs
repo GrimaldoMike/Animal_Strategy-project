@@ -1,15 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
 public class UnitContainerSpawner : MonoBehaviour
 {
     private int posY = 0;
-    private Character cChar;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +49,8 @@ public class UnitContainerSpawner : MonoBehaviour
         childObject.GetComponent<TextMeshProUGUI>().text = nameOfDog;
         //// Editando raw image del hijo 2////
         childObject = gObj.transform.GetChild(1).gameObject;
-        string path = "Assets/Images/Character Portraits/" + cChar.charName + "_portrait.png";
-        childObject.GetComponent<RawImage>().texture = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
+        string path = "Character Portraits/"+ cChar.charName + "_portrait";
+        childObject.GetComponent<RawImage>().texture = Resources.Load<Texture2D>(path);
 
         //// Editando boton del hijo 3 y 4. Se le agrega personajes a una lista para luego darle deploy////
         gObj.transform.GetComponent<SpawnerPrefab>().vChar = cChar;

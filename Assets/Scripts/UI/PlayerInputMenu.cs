@@ -18,7 +18,7 @@ public class PlayerInputMenu : MonoBehaviour
 
     public TMP_Text turnPointsText, errorText;
     private Vector3 originalPositionErrorText;
-    public float errorDisplayTime = 1.5f;
+    public float errorDisplayTime = 2f;
     private float errorCounter;
 
     public TMP_Text hitChanceText;
@@ -203,26 +203,9 @@ public class PlayerInputMenu : MonoBehaviour
             GameManager.instance.targetDisplay.transform.position = GameManager.instance.activePlayer.meleeTargets[GameManager.instance.activePlayer.currentMeleeTarget].transform.position;
             GameManager.instance.activePlayer.LookAtTarget(GameManager.instance.activePlayer.meleeTargets[GameManager.instance.activePlayer.currentMeleeTarget].transform); //Mandamos rotar al jugador al decidir a cuál enemigo mirar.
 
-            /*
-            if (GameManager.instance.activePlayer is not null)
-            {
-                if (GameManager.instance.activePlayer.isDogger == true)
-                {
-                    DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-                    dogCont.FunctionDogAttackType(true, 0);
-                }
-            }
-            else
-            {
-                Debug.Log("por algo no jala");
-            }
-            */
-
-
         }
         else
         {
-            //Debug.Log("No enemies in melee range");
             ShowErrorText("No enemies whitin melee range");
             SFXManager.instance.UICancel.Play();
         }
@@ -235,7 +218,6 @@ public class PlayerInputMenu : MonoBehaviour
         GameManager.instance.currentActionCost = 1; // Se setea el costo de la acción de melee.
 
         HideMenus(); //Ocultamos menus para visualizar la animacion de melee.
-        //GameManager.instance.SpendTurnPoints(); // Se pide al gamemanager que use el punto de acción.
         StartCoroutine(WaitToEndActionCo(1f)); // Se controla el final de turno por puntos gastados con corrutina de esperar.
         SFXManager.instance.UISelect.Play();
     }
@@ -501,7 +483,13 @@ public class PlayerInputMenu : MonoBehaviour
         moveMapInfoLabel.gameObject.SetActive(true);
         SFXManager.instance.UISelect.Play();
     }
-
+    public void RestarLevel()
+    {
+        instance = null;
+        Destroy(gameObject);
+        GameManager.instance.TimeScalingController(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void GoToMainMenu()
     {
         instance = null;
@@ -509,5 +497,6 @@ public class PlayerInputMenu : MonoBehaviour
         GameManager.instance.TimeScalingController(1f);
         SceneManager.LoadScene("Main Menu");
     }
+
 
 }
