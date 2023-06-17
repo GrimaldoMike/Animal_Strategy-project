@@ -9,6 +9,7 @@ public class DogAnimationTest : CharacterController
     static private string[] dogLabels;
     static private string[] DogNewTypes; // Dog Types
     Animator dogAnim;// Animator for the assigned dog
+    public AudioSource walkingSFX;
 
     /// < Dog controller variables>
     [Header("Animation Control")]
@@ -278,7 +279,14 @@ public class DogAnimationTest : CharacterController
         dogAnim.SetTrigger("Blink_tr"); // Blink will continue unless asleep or dead
         dogAnim.SetFloat("Movement_f", w_movement); // Set movement speed for all required parameters
         //navAgent.speed = w_movement;
-
+        if(w_movement >  0)
+        {
+            walkingSFX.gameObject.SetActive(true);
+        }
+        else
+        {
+            walkingSFX.gameObject.SetActive(false);
+        }
     }
 
     IEnumerator DogActions(int actionType) // Dog action coroutine

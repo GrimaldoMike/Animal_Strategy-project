@@ -151,13 +151,7 @@ public class GameManager : MonoBehaviour
     //Funcion de referencia para scripts de fuera.
     public void FinishedMovement()
     {
-        //EndTurn();
-        /*
-        if (GameManager.instance.activePlayer.isDogger)
-        {
-            GameManager.instance.activePlayer.SetReadyPosition();
-        }
-        */
+
         SpendTurnPoints();
     }
 
