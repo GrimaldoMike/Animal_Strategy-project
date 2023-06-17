@@ -103,7 +103,7 @@ public class AIBrain : MonoBehaviour
             GameManager.instance.currentActionCost = 1; //El melee cuesta 1 punto de acción.
 
             StartCoroutine(WaitToEndAction(waitAfterActing));
-            Debug.Log(name + " melee at " + charaCon.meleeTargets[charaCon.currentShootTarget].name);
+            Debug.Log(name + " melee at " + charaCon.meleeTargets[charaCon.currentMeleeTarget].name);
 
             charaCon.DoMelee();
             actionTaken = true;
