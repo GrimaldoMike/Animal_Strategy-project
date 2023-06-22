@@ -134,6 +134,10 @@ public class CharacterController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            navAgent.speed = 0;
+        }
     }
 
     //Funcion que espera a que se acepte o no el movimiento. Pudiese poner un timer en el futuro para que no sea infinito el tiempo.

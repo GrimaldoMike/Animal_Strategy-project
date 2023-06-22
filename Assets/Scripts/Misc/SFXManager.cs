@@ -13,11 +13,17 @@ public class SFXManager : MonoBehaviour
 
     public AudioSource deathHuman, deathRobot, impact, meleeHit, takeDamage, UICancel, UISelect;
     public AudioSource[] shootSounds;
+    public AudioSource[] animalSFX;
 
     //Función para que aleatoriamente elija un sonido de disparo.
     public void PlayShoot() 
     {
         shootSounds[Random.Range(0, shootSounds.Length)].Play();
+    }
+
+    public void PlayAnimalSFX(int sfxPos)
+    {
+        shootSounds[sfxPos].Play();
     }
 
 }

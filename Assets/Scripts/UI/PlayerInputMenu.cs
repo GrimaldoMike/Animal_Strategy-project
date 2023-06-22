@@ -33,6 +33,8 @@ public class PlayerInputMenu : MonoBehaviour
     public GameObject battleStatePlayerLabel, battleStateEnemyLabel;
     public GameObject unitsMenuButton, showMapButton;
 
+    //Cutscene variables
+    public GameObject isCutsceneOver;
     private void Start()
     {
         originalPositionErrorText = errorText.gameObject.transform.position;
@@ -498,5 +500,25 @@ public class PlayerInputMenu : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
+    //Se llamará cuando el PROLOGO (la cutscene) haya terminado. Se activa START y el menu de units.
+    public void CutsceneController()
+    {
+        isCutsceneOver.SetActive(false);
+        UIBattlePhasesActivator();
+        BattleManager.instance.UpdateBattleState(); // Primer update a battle START.
+    }
+
+    private void UIBattlePhasesActivator()
+    {
+        switch (BattleManager.instance.currentBattleState)
+        {
+            case BattleManager.BattleState.PROLOGUE:
+                spawnerBG.SetActive(true);
+                unitsMenuButton.SetActive(true);
+                showMapButton.SetActive(true);
+                startBattleButton.SetActive(true);
+                break;
+        }
+    }
 
 }

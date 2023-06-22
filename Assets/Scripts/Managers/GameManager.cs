@@ -46,10 +46,12 @@ public class GameManager : MonoBehaviour
     public List<Character> dogPlayers;
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
-        BattleManager.instance.UpdateBattleState(); // Primer update a battle START.
+        //CutsceneController();
         InitGameManagerValues();
         //SetUpCharactersInPlay();
     }
@@ -410,5 +412,6 @@ public class GameManager : MonoBehaviour
         {
             backupSpawnPoints.Add(spawnVector3);
         }
+
     }
 }

@@ -10,6 +10,7 @@ public class DogAnimationTest : CharacterController
     static private string[] DogNewTypes; // Dog Types
     Animator dogAnim;// Animator for the assigned dog
     public AudioSource walkingSFX;
+    public AudioSource runningSFX;
 
     /// < Dog controller variables>
     [Header("Animation Control")]
@@ -89,6 +90,7 @@ public class DogAnimationTest : CharacterController
         {
             dogAnim.SetBool("AttackReady_b", true);
             dogAnim.SetInteger("AttackType_int", attackType);
+
         }
         else
         {
@@ -279,12 +281,18 @@ public class DogAnimationTest : CharacterController
         dogAnim.SetTrigger("Blink_tr"); // Blink will continue unless asleep or dead
         dogAnim.SetFloat("Movement_f", w_movement); // Set movement speed for all required parameters
         //navAgent.speed = w_movement;
-        if(w_movement >  0)
+        if(w_movement >  0.5f)
+        {
+            runningSFX.gameObject.SetActive(true);
+        }else if (w_movement > 0f)
         {
             walkingSFX.gameObject.SetActive(true);
         }
-        else
+        else 
         {
+            runningSFX.Stop();
+            runningSFX.gameObject.SetActive(false);
+            walkingSFX.Stop();
             walkingSFX.gameObject.SetActive(false);
         }
     }
