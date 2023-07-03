@@ -68,6 +68,10 @@ public class CharacterController : MonoBehaviour
     //Animation
     public Animator anim;
 
+    //Stat definition
+    //CharacterData characterStats = new CharacterData();
+
+
     private void Awake()
     {
         //Se movieron al Awake para que el juego no empieze con la match y los jugadors en HP =0, o terminaría la partida al empezar

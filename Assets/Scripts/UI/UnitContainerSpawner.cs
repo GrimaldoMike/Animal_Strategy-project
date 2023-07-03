@@ -45,7 +45,7 @@ public class UnitContainerSpawner : MonoBehaviour
 
         //// Editando texto del hijo 1////
         childObject = gObj.transform.GetChild(0).gameObject;
-        string nameOfDog = cChar.charName;
+        string nameOfDog = cChar.uiName;
         childObject.GetComponent<TextMeshProUGUI>().text = nameOfDog;
         //// Editando raw image del hijo 2////
         childObject = gObj.transform.GetChild(1).gameObject;

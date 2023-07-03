@@ -40,17 +40,20 @@ public class Character
     public int charID;
     public string charPrefabName;
     public string charName;
+    public string uiName;
 
     public Character()
     {
         this.charID = 0;
         this.charPrefabName = "";
         this.charName = "";
+        this.uiName = "";
     }
-    public Character(int id, string prefabName, string name)
+    public Character(int id, string prefabName, string name, string uiname)
     {
         this.charID = id;
         this.charPrefabName = prefabName;
         this.charName = name;
+        this.uiName = uiname;
     }
 }

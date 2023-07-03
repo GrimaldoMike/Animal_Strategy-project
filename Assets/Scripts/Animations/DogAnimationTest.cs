@@ -90,7 +90,6 @@ public class DogAnimationTest : CharacterController
         {
             dogAnim.SetBool("AttackReady_b", true);
             dogAnim.SetInteger("AttackType_int", attackType);
-
         }
         else
         {
@@ -441,8 +440,6 @@ public class DogAnimationTest : CharacterController
         walkPressed = isWalking;
         runPressed = isRunning;
     }
-
-
 
     /// <FunctionDogAttackType>
     /// <param name="atkMode"></param>

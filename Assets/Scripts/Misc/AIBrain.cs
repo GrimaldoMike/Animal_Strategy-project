@@ -19,6 +19,8 @@ public class AIBrain : MonoBehaviour
 
     public void ChooseAction()
     {
+        Debug.Log("Aqui 3");
+
         StartCoroutine(ChooseCo());
     }
 

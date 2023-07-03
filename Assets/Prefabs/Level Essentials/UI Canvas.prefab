@@ -1262,7 +1262,7 @@ RectTransform:
   - {fileID: 668455552397341507}
   - {fileID: 763373200}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2896,7 +2896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1861753294475083839, guid: 6c751fd177b26b644808ef26fde8d6a2, type: 3}
       propertyPath: m_text
-      value: Leave Battle
+      value: Next Battle
       objectReference: {fileID: 0}
     - target: {fileID: 1861753294475083839, guid: 6c751fd177b26b644808ef26fde8d6a2, type: 3}
       propertyPath: m_fontSize
