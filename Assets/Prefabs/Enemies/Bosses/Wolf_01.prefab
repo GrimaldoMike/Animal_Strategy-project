@@ -3675,6 +3675,10 @@ MonoBehaviour:
   isRotating: 0
   brain: {fileID: 1663909150312464877}
   anim: {fileID: 4334311327172679923}
+  charStatName: Boss Wolf
+  charStatType: Wolf
+  charStatSubType: PolygonDog
+  charStatColor: 1
   walkingSFX: {fileID: 1663909149451999701}
   runningSFX: {fileID: 1663909149311007338}
   timeRemaining: 1

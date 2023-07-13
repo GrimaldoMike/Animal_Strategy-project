@@ -71,7 +71,6 @@ public class DogAnimationTest : CharacterController
         InitBoolControllerVariables();
         InitLabelValueVariables();
 
-        dogAnim = GetComponent<Animator>(); // Get the animation component
      }
 
     void Update()
@@ -429,6 +428,11 @@ public class DogAnimationTest : CharacterController
         decelleration = 1.0f;
         maxWalk = 0.5f;
         maxRun = 1.0f;
+        dogAnim = GetComponent<Animator>(); // Get the animation component
+
+        //Se define el CharacterData con los datos de Unity editor
+        characterData = characterData.CreateNewCharacterData(charStatName, charStatType, charStatSubType, charStatColor);
+
     }
 
     public void FunctionDogKnockedOut()
@@ -499,6 +503,8 @@ public class DogAnimationTest : CharacterController
             FunctionDogAttackType(true,0);
         }
     }
+
+    //ActionType - 6 Howl
     public IEnumerator FunctionDogAction(bool isStanding, int actionType)
     {
         int timeToWaitPerAnimation;

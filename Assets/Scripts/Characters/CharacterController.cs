@@ -9,22 +9,23 @@ public class CharacterController : MonoBehaviour
 {
     // <>
     //Movement variables
+    [Header("Movement variables")]
     public float moveSpeed, runningSpeed;
     private Vector3 moveTarget;
     public float moveRange, runRange;
     public bool finishedMovement;
     public Vector3 originalPosition;
-
     public NavMeshAgent navAgent;
     public Transform centerPoint;
 
     //Control and animation variables
-    public bool isMoving, isMeleeing, isRunning;
-    public bool isShooting;
+    [Header("Control variables")]
+    public bool isMeleeing, isMoving, isRunning, isShooting;
     public bool isDamaged, isKnockedOut;
     public bool isEnemy, isDogger;
 
     //Melee variables
+    [Header("Melee variables")]
     public float meleeRange;
     [HideInInspector]
     public List<CharacterController> meleeTargets = new List<CharacterController>();
@@ -33,7 +34,9 @@ public class CharacterController : MonoBehaviour
     public float meleeDamage;
 
     //Fire variables
-    public float shootRange, shootDamage;
+    [Header("Fire variables")]
+    public float shootRange;
+    public float shootDamage;
     [HideInInspector]
     public List<CharacterController> shootTargets = new List<CharacterController>();
     [HideInInspector]
@@ -50,6 +53,7 @@ public class CharacterController : MonoBehaviour
     public bool isDefending;
 
     //Health variables
+    [Header("Health variables")]
     public float maxHealth;
     [HideInInspector]
     public float currentHealth;
@@ -69,7 +73,12 @@ public class CharacterController : MonoBehaviour
     public Animator anim;
 
     //Stat definition
-    //CharacterData characterStats = new CharacterData();
+    [Header("Stat definition")]
+    public CharacterData characterData = new CharacterData();
+    public string charStatName;
+    public string charStatType;
+    public string charStatSubType;
+    public int charStatColor;
 
 
     private void Awake()
@@ -85,7 +94,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitCharacterControllerValues();
+        //InitCharacterControllerValues();
     }
 
     // Update is called once per frame
@@ -93,9 +102,7 @@ public class CharacterController : MonoBehaviour
     {
         if (GameManager.instance.isPaused == false)
         {
-            CharacterMovement();
             ShotLineController();
-            AnimationController();
         }
     }
 
@@ -121,11 +128,7 @@ public class CharacterController : MonoBehaviour
                 {
                     isMoving = false;
                     isRunning = false;
-                    if (isDogger == true)
-                    {
-                        DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-                        dogCont.FunctionDogWalking(isMoving, isRunning);
-                    }
+                    CheckForCharacterInteractionController("Movement"); //Funcion que validará las acciones según el script de cada personaje.
 
                     if (isEnemy == false)
                     {
@@ -153,36 +156,6 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    private void AnimationController()
-    {
-        if(isDogger== false)
-        {
-            if (isMoving == true)
-            {
-                anim.SetBool("a_isWalking", true);
-            }
-            else
-            {
-                anim.SetBool("a_isWalking", false);
-            }
-            if (isMeleeing == true)
-            {
-                isMeleeing = false;
-                anim.SetTrigger("a_doMelee");
-            }
-            if (isDamaged == true)
-            {
-                isDamaged = false;
-                anim.SetTrigger("a_damaged");
-            }
-            if (isKnockedOut == true)
-            {
-                isKnockedOut = false;
-                anim.SetTrigger("a_die");
-            }
-        }
-    }
-
     public void MoveToPoint(Vector3 pointToMoveTo)
     {
         //Guardamos la posición actual.
@@ -203,11 +176,7 @@ public class CharacterController : MonoBehaviour
         }
         isMoving = true;
 
-        if (isDogger == true)
-        {
-            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-            dogCont.FunctionDogWalking(isMoving, isRunning);
-        }
+        CheckForCharacterInteractionController("Movement"); //Funcion que validará las acciones según el script de cada personaje.
     }
 
     //Revisa si hay contrincantes a la distancia de "meleeRange". Si es así, los coloca en la lista de objetivos meleeTargets.
@@ -249,11 +218,8 @@ public class CharacterController : MonoBehaviour
     public void DoMelee()
     {
         isMeleeing = true;
-        if (isDogger == true)
-        {
-            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-            dogCont.FunctionDogAttackType(isMeleeing, 1);
-        }
+        CheckForCharacterInteractionController("Bite");
+
         SFXManager.instance.meleeHit.Play();
         meleeTargets[currentMeleeTarget].TakeDamage(meleeDamage);
     }
@@ -275,11 +241,7 @@ public class CharacterController : MonoBehaviour
         {
             isDamaged = true;
             SFXManager.instance.takeDamage.Play();
-            if (isDogger == true)
-            {
-                DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-                dogCont.FunctionDogAttackType(true,3);
-            }
+            CheckForCharacterInteractionController("Damaged");
         }
         UpdateHealthDisplay();
     }
@@ -290,11 +252,7 @@ public class CharacterController : MonoBehaviour
         navAgent.enabled = false; //Desactiva script de navegacion.
         isKnockedOut = true; //Se activa la bandera de jugador inhabilitado para acciones.
 
-        if(isDogger == true)
-        {
-            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-            dogCont.FunctionDogKnockedOut();
-        }
+        CheckForCharacterInteractionController("KnockedOut");
 
         //Se remueve del juego para que no tenga acciones.
         GameManager.instance.RemoveCharacterFromPlay(this);
@@ -420,11 +378,8 @@ public class CharacterController : MonoBehaviour
             shootLine.gameObject.SetActive(true);
             shotRemainCounter = shotRemainTime;
 
-            if (isDogger == true)
-            {
-                DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-                StartCoroutine(dogCont.FunctionDogAction(isShooting, 6)); //ActionType - 6 Howl
-            }
+            CheckForCharacterInteractionController("Shoot");
+
             SFXManager.instance.PlayShoot();
 
         }
@@ -512,14 +467,91 @@ public class CharacterController : MonoBehaviour
     {
         isDefending = defend;
         defendObject.SetActive(isDefending);
-
-        if (isDogger == true)
+        if(isDefending == true)
         {
-            DogAnimationTest dogCont = GetComponent<DogAnimationTest>(); // Get the animation component
-            dogCont.FunctionDogAttackType(isDefending, 0); //ActionType - 6 Howl
+            CheckForCharacterInteractionController("Defend");
         }
     }
 
+    /// <summary>
+    /// CheckForCharacterInteractionController
+    /// Este controlador verifica qué script tiene cada personaje y dependiendo de la interacción, obtiene el script correcto.
+    /// </summary>
+    /// <param name="interaction"></param>
+    private void CheckForCharacterInteractionController(string interaction)
+    {
+        Debug.Log("interaction: " + interaction);
+        switch (characterData.CharacterStats.CharacterSubType)
+        {
+            case "PolygonDog":
+                DogAnimationTest dogPolygon = GetComponent<DogAnimationTest>(); // Get the animation component
+                switch (interaction)
+                {
+                    case "Movement":
+                        dogPolygon.FunctionDogWalking(isMoving, isRunning);
+                        break;
+                    case "Bite":
+                        dogPolygon.FunctionDogAttackType(isMeleeing, 1);
+                        break;
+                    case "Shoot": //ActionType - 6 Howl
+                        StartCoroutine(dogPolygon.FunctionDogAction(isShooting, 6)); //ActionType - 6 Howl
+                        break;
+                    case "Damaged"://ActionType - 0 Hurt
+                        dogPolygon.FunctionDogAttackType(isDamaged, 0); 
+                        break;
+                    case "Defend"://ActionType - 3 AttackReady
+                        dogPolygon.FunctionDogAttackType(isDefending, 3);
+                        break;
+                    case "KnockedOut":
+                        dogPolygon.FunctionDogKnockedOut();
+                        break;
+                    default:
+                        break;
+                }
+                return;
+            case "SimpleDog":
+                DogAnimationSimple dogSimple = GetComponent<DogAnimationSimple>(); // Get the animation component
+                Debug.Log("Soy un " + characterData.CharacterStats.CharacterSubType + " y elegí: "+ interaction);
+                switch (interaction)
+                {
+                    case "Movement":
+                        dogSimple.FunctionDogWalking(isMoving, isRunning);
+                        return;
+                    case "Bite":
+                        dogSimple.FunctionDogAction(isMeleeing, 1);
+                        return;
+                    case "Shoot": //ActionType - 6 Howl
+                        dogSimple.FunctionDogAction(isShooting, 6); //ActionType - 6 Howl
+                        return;
+                    case "Damaged":
+                        dogSimple.FunctionDogAction(isDamaged, 0);
+                        return;
+                    case "Defend":
+                        dogSimple.FunctionDogAction(isDefending, 3);
+                        return;
+                    case "KnockedOut":
+                        dogSimple.FunctionDogKnockedOut();
+                        return;
+                    default:
+                        Debug.Log("Me fui por el default en: " + characterData.CharacterStats.CharacterSubType + " y elegí: " + interaction);
+                        break;
+                }
+
+                return;
+            case "SimpleFarm":
+                return;
+            case "SimpleWild":
+                return;
+            case "SimpleCat":
+                return;
+            case "Other":
+                return;
+            default:
+                Debug.Log("Llegue aqui acaso?");
+                return;
+        }
+    }
+    
     private void InitCharacterControllerValues()
     {
         moveRange = 3.5f; runRange = 8f;
@@ -536,6 +568,7 @@ public class CharacterController : MonoBehaviour
         rotateSpeed = 45f;
         isRotating = false;
         endRotationTarget = this.transform;
+
     }
 
 
@@ -556,4 +589,18 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
+
+    /*
+    public void DespliegaElContenidoCharacterData()
+    {
+        // Mostrar el contenido del objeto CharacterData
+        var characterDataContent = characterData.DisplayCharacterDataContent(characterData);
+
+        Debug.Log("Character Data:");
+        foreach (var item in characterDataContent)
+        {
+            Debug.Log($"{item.Key}: {item.Value}");
+        }
+    }
+    **/
 }

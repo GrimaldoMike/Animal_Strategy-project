@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1663909150312464878, guid: d076ff891c292af43aef1fdc0ef49637, type: 3}
+      propertyPath: charStatColor
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4334311327176959559, guid: d076ff891c292af43aef1fdc0ef49637, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -62,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4334311327180073655, guid: d076ff891c292af43aef1fdc0ef49637, type: 3}
       propertyPath: m_Name
-      value: Wolf_04
+      value: Wolf_04 Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

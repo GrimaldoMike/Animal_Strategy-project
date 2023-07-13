@@ -995,6 +995,10 @@ MonoBehaviour:
   isRotating: 0
   brain: {fileID: 7201040405754952541}
   anim: {fileID: 2401944779431588962}
+  charStatName: Coyote
+  charStatType: Coyote
+  charStatSubType: PolygonDog
+  charStatColor: 1
   walkingSFX: {fileID: 1350385608}
   runningSFX: {fileID: 750191001}
   timeRemaining: 1

@@ -4276,6 +4276,12 @@ MonoBehaviour:
   isRotating: 0
   brain: {fileID: 0}
   anim: {fileID: 6150705310453684099}
+  charStatName: Sherman
+  charStatType: GermanShepherd
+  charStatSubType: PolygonDog
+  charStatColor: 1
+  walkingSFX: {fileID: 0}
+  runningSFX: {fileID: 0}
   timeRemaining: 1
   acceleration: 1
   decelleration: 1

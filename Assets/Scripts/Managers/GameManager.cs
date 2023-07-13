@@ -226,10 +226,7 @@ public class GameManager : MonoBehaviour
                 PlayerInputMenu.instance.turnPointsText.gameObject.SetActive(false);
 
                 //StartCoroutine(AISkipCo()); //TEMPORAL.
-                Debug.Log("Aqui 1");
                 activePlayer.brain.ChooseAction(); // Se manda llamar las decisiones de AI.
-                Debug.Log("Aqui 2");
-
             }
 
             currentActionCost = 1; //reseteamos el costo de una acción a 1. 

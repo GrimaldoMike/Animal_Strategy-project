@@ -2669,7 +2669,12 @@ MonoBehaviour:
   isRotating: 0
   brain: {fileID: 0}
   anim: {fileID: 1857625811727397562}
+  charStatName: Golderiev
+  charStatType: GoldenRetriever
+  charStatSubType: PolygonDog
+  charStatColor: 1
   walkingSFX: {fileID: 0}
+  runningSFX: {fileID: 0}
   timeRemaining: 1
   acceleration: 1
   decelleration: 1

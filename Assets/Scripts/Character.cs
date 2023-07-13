@@ -41,7 +41,15 @@ public class Character
     public string charPrefabName;
     public string charName;
     public string uiName;
-
+    //Stat definition
+    /*
+    public CharacterData characterData = new CharacterData();
+    public CharacterStats characterStats = new CharacterStats();
+    public string charStatName;
+    public string charStatType;
+    public string charStatSubType;
+    public int charStatColor;
+    */
     public Character()
     {
         this.charID = 0;
