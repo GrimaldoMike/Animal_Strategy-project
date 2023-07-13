@@ -59,7 +59,7 @@ public class CharacterData
 
         SetInitialStatsAndAbilities(charStatsInitial, generalStatsInitial, battleActionsInitial);
 
-        //El CurrentStats va después del cálculo del GeneralStats segun el tipo.
+        //El CurrentStats va despuï¿½s del cï¿½lculo del GeneralStats segun el tipo.
         CurrentStats currentStatsInitial = new CurrentStats()
         {
             CurrentHP = generalStatsInitial.MaxHP,
@@ -87,7 +87,7 @@ public class CharacterData
 
     private void SetInitialStatsAndAbilities(CharacterStats charStatsInitial, GeneralStats generalStatsInitial, BattleActions battleActionsInitial)
     {
-        // Definición Global
+        // Definiciï¿½n Global
         generalStatsInitial.CurrentLevel = 1;
         generalStatsInitial.CurrentXP = 0;
 

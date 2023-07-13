@@ -83,7 +83,7 @@ public class CharacterController : MonoBehaviour
 
     private void Awake()
     {
-        //Se movieron al Awake para que el juego no empieze con la match y los jugadors en HP =0, o terminaría la partida al empezar
+        //Se movieron al Awake para que el juego no empieze con la match y los jugadors en HP =0, o terminarï¿½a la partida al empezar
         moveTarget = transform.position;
         navAgent.speed = moveSpeed;
         maxHealth = 10f;
@@ -121,14 +121,14 @@ public class CharacterController : MonoBehaviour
             //Moving to a point with mouse.
             if (GameManager.instance.activePlayer == this) //Solamente se valida el jugador activo.
             {
-                CameraController.instance.SetMoveTarget(transform.position); //Mueve la cámara hacia la posición del personaje.
+                CameraController.instance.SetMoveTarget(transform.position); //Mueve la cï¿½mara hacia la posiciï¿½n del personaje.
 
-                //if (Vector3.Distance(transform.position, moveTarget) < 0.2f) //Si el jugador llegó a su destino (o a una distancia muy corta)
-                if (Vector3.Distance(centerPoint.position, moveTarget) < 0.2f) //Si el jugador llegó a su destino (o a una distancia muy corta)
+                //if (Vector3.Distance(transform.position, moveTarget) < 0.2f) //Si el jugador llegï¿½ a su destino (o a una distancia muy corta)
+                if (Vector3.Distance(centerPoint.position, moveTarget) < 0.2f) //Si el jugador llegï¿½ a su destino (o a una distancia muy corta)
                 {
                     isMoving = false;
                     isRunning = false;
-                    CheckForCharacterInteractionController("Movement"); //Funcion que validará las acciones según el script de cada personaje.
+                    CheckForCharacterInteractionController("Movement"); //Funcion que validarï¿½ las acciones segï¿½n el script de cada personaje.
 
                     if (isEnemy == false)
                     {
@@ -158,17 +158,17 @@ public class CharacterController : MonoBehaviour
 
     public void MoveToPoint(Vector3 pointToMoveTo)
     {
-        //Guardamos la posición actual.
+        //Guardamos la posiciï¿½n actual.
         originalPosition = transform.position;
 
-        //Se moverá por parametro hacia el punto enviado.
+        //Se moverï¿½ por parametro hacia el punto enviado.
         moveTarget = pointToMoveTo;
 
         navAgent.SetDestination(moveTarget);
 
         navAgent.speed = moveSpeed;
 
-        //Este if solo funciona porque sabemos que "currentActionCost" vale 1 cuando camina y 2 cuando corre. Se deberá modificar si existen más puntos de accion cuando hay movimiento.
+        //Este if solo funciona porque sabemos que "currentActionCost" vale 1 cuando camina y 2 cuando corre. Se deberï¿½ modificar si existen mï¿½s puntos de accion cuando hay movimiento.
         if (GameManager.instance.currentActionCost >= 2)
         {
             isRunning = true;
@@ -176,10 +176,10 @@ public class CharacterController : MonoBehaviour
         }
         isMoving = true;
 
-        CheckForCharacterInteractionController("Movement"); //Funcion que validará las acciones según el script de cada personaje.
+        CheckForCharacterInteractionController("Movement"); //Funcion que validarï¿½ las acciones segï¿½n el script de cada personaje.
     }
 
-    //Revisa si hay contrincantes a la distancia de "meleeRange". Si es así, los coloca en la lista de objetivos meleeTargets.
+    //Revisa si hay contrincantes a la distancia de "meleeRange". Si es asï¿½, los coloca en la lista de objetivos meleeTargets.
     public void GetMeleeTargets()
     {
         meleeTargets.Clear();
@@ -226,7 +226,7 @@ public class CharacterController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if(isDefending == true) // Se revisa si estuvo en defensa, reduce el daño.
+        if(isDefending == true) // Se revisa si estuvo en defensa, reduce el daï¿½o.
         {
             damage *= .5f;
         }
@@ -321,11 +321,11 @@ public class CharacterController : MonoBehaviour
             //Se obtiene la posicion del targetpoint basado en el shootpoint del oponente.
             Vector3 targetPoint = new Vector3(shootTargets[currentShootTarget].transform.position.x, shootTargets[currentShootTarget].shootPoint.position.y, shootTargets[currentShootTarget].transform.position.z);
 
-            targetPoint.y = Random.Range(targetPoint.y, shootTargets[currentShootTarget].transform.position.y + 0.25f); //Este código ajusta un rango de propabilidad aleatoria en eje "y" (altura). Puede disparar entre los pies +.25 hasta el shootPoint.
+            targetPoint.y = Random.Range(targetPoint.y, shootTargets[currentShootTarget].transform.position.y + 0.25f); //Este cï¿½digo ajusta un rango de propabilidad aleatoria en eje "y" (altura). Puede disparar entre los pies +.25 hasta el shootPoint.
 
-            //El offset es una formula que toma el shotMissedRange al azar y calcula, dependiendo de la distancia del punto de disparo y el objetivo, una cantidad de variación.
-            //Entre más lejos, mas alto el valor deprobabilidad de fallo.
-            //Si la distancia entre el punto de disparo y objetivo es más pequeña, la variación de fallo es mucho más pequeña.
+            //El offset es una formula que toma el shotMissedRange al azar y calcula, dependiendo de la distancia del punto de disparo y el objetivo, una cantidad de variaciï¿½n.
+            //Entre mï¿½s lejos, mas alto el valor deprobabilidad de fallo.
+            //Si la distancia entre el punto de disparo y objetivo es mï¿½s pequeï¿½a, la variaciï¿½n de fallo es mucho mï¿½s pequeï¿½a.
             Vector3 targetOffset = new Vector3(Random.Range(-shotMissedRange.x, shotMissedRange.x),
                                                Random.Range(-shotMissedRange.y, shotMissedRange.y),
                                                Random.Range(-shotMissedRange.z, shotMissedRange.z));
@@ -338,7 +338,7 @@ public class CharacterController : MonoBehaviour
 
             Debug.DrawRay(shootPoint.position, shootDirection * shootDamage, Color.green, 1f);
 
-            //Se calcula dónde el raycast golpea al objetivo y si le dio o no.
+            //Se calcula dï¿½nde el raycast golpea al objetivo y si le dio o no.
             RaycastHit hit;
             if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))
             {
@@ -347,7 +347,7 @@ public class CharacterController : MonoBehaviour
                     //Debug.Log(name + " Shot Target " + shootTargets[currentShootTarget].name);
                     shootTargets[currentShootTarget].TakeDamage(shootDamage);
 
-                    Instantiate(shotHitFX, hit.point, Quaternion.identity); // Instanciamos el FX de daño.
+                    Instantiate(shotHitFX, hit.point, Quaternion.identity); // Instanciamos el FX de daï¿½o.
 
                 }
                 else
@@ -398,7 +398,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    //Esta funcion es la que calculará el porcentaje de probabilidad para golpear un jugador evaluando el mundo y su alrededor. Se convertirá en texto para desplegar.
+    //Esta funcion es la que calcularï¿½ el porcentaje de probabilidad para golpear un jugador evaluando el mundo y su alrededor. Se convertirï¿½ en texto para desplegar.
     public float CheckShotChance()
     {
         float shotChance = 0f;
@@ -409,9 +409,9 @@ public class CharacterController : MonoBehaviour
         Vector3 targetPoint = new Vector3(shootTargets[currentShootTarget].transform.position.x, shootTargets[currentShootTarget].shootPoint.position.y, shootTargets[currentShootTarget].transform.position.z);
         Vector3 shootDirection = (targetPoint - shootPoint.position).normalized;
         Debug.DrawRay(shootPoint.position, shootDirection * shootRange, Color.red, 1f);
-        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colisionó el Raycast.
+        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colisionï¿½ el Raycast.
         {
-            if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject) // Si el objeto con el que colisionó el Raycast es el objetivo a disparar.
+            if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject) // Si el objeto con el que colisionï¿½ el Raycast es el objetivo a disparar.
             {
                 shotChance += 50f;
             }
@@ -421,9 +421,9 @@ public class CharacterController : MonoBehaviour
         targetPoint.y = shootTargets[currentShootTarget].transform.position.y + 0.25f;
         shootDirection = (targetPoint - shootPoint.position).normalized;
         Debug.DrawRay(shootPoint.position, shootDirection * shootRange, Color.red, 1f);
-        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colisionó el Raycast.
+        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colisionï¿½ el Raycast.
         {
-            if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject) // Si el objeto con el que colisionó el Raycast es el objetivo a disparar.
+            if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject) // Si el objeto con el que colisionï¿½ el Raycast es el objetivo a disparar.
             {
                 shotChance += 50f;
             }
@@ -440,16 +440,16 @@ public class CharacterController : MonoBehaviour
         transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z), Vector3.up);
     }    
     
-    //Funcion para rota un jugador hacia un objetivo. Se guarda el jugador objetivo en variable y se activa el booleano isRotating. Entonces RotationController() en Update se encargará de rotarlo.
+    //Funcion para rota un jugador hacia un objetivo. Se guarda el jugador objetivo en variable y se activa el booleano isRotating. Entonces RotationController() en Update se encargarï¿½ de rotarlo.
     public void LookAtShootTarget(Transform target)
     {
         endRotationTarget = target;
 
-        lookOnLook = Quaternion.LookRotation(target.transform.position - transform.position); //Funcion similar a LookAt(), esta sí devuelve un Quaternion.
+        lookOnLook = Quaternion.LookRotation(target.transform.position - transform.position); //Funcion similar a LookAt(), esta sï¿½ devuelve un Quaternion.
         isRotating = true;
     }
 
-    // Se debe activar el booleano cuando presionen el botón de Disparar. Se desactiva cuando termine de rotar.
+    // Se debe activar el booleano cuando presionen el botï¿½n de Disparar. Se desactiva cuando termine de rotar.
     private void RotationController()
     {
         if (isRotating)
@@ -462,7 +462,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    //Funcion que activa y desactiva el gameobject de defensa. El booleano hará las modificaciones en el Update.
+    //Funcion que activa y desactiva el gameobject de defensa. El booleano harï¿½ las modificaciones en el Update.
     public void SetDefending(bool defend)
     {
         isDefending = defend;
@@ -475,7 +475,7 @@ public class CharacterController : MonoBehaviour
 
     /// <summary>
     /// CheckForCharacterInteractionController
-    /// Este controlador verifica qué script tiene cada personaje y dependiendo de la interacción, obtiene el script correcto.
+    /// Este controlador verifica quï¿½ script tiene cada personaje y dependiendo de la interacciï¿½n, obtiene el script correcto.
     /// </summary>
     /// <param name="interaction"></param>
     private void CheckForCharacterInteractionController(string interaction)
@@ -511,7 +511,7 @@ public class CharacterController : MonoBehaviour
                 return;
             case "SimpleDog":
                 DogAnimationSimple dogSimple = GetComponent<DogAnimationSimple>(); // Get the animation component
-                Debug.Log("Soy un " + characterData.CharacterStats.CharacterSubType + " y elegí: "+ interaction);
+                Debug.Log("Soy un " + characterData.CharacterStats.CharacterSubType + " y elegï¿½: "+ interaction);
                 switch (interaction)
                 {
                     case "Movement":
@@ -533,7 +533,7 @@ public class CharacterController : MonoBehaviour
                         dogSimple.FunctionDogKnockedOut();
                         return;
                     default:
-                        Debug.Log("Me fui por el default en: " + characterData.CharacterStats.CharacterSubType + " y elegí: " + interaction);
+                        Debug.Log("Me fui por el default en: " + characterData.CharacterStats.CharacterSubType + " y elegï¿½: " + interaction);
                         break;
                 }
 
