@@ -204,12 +204,13 @@ public class DogAnimationSimple : CharacterController
         runPressed = false;
         sitPressed = false;
         isDogger = true;
-        moveRange = 2f; runRange = 6f;
+        //moveRange = 2f; runRange = 6f;
         isMoving = false; isMeleeing = false; isRunning = false; isShooting = false; isDefending = false; isDamaged = false; isKnockedOut = false;
-        meleeRange = 2f; meleeDamage = 3f;
-        shootRange = 6f; shootDamage = 1.5f;
+        meleeRange = 2f; 
+        //meleeDamage = 3f;
+        //shootRange = 6f; 
+        //shootDamage = 1.5f;
         currentMeleeTarget = 0; currentShootTarget = 0; //Default no hay enemigos en rango.
-        UpdateHealthDisplay(); //Inicializamos el UI de Health.
         shootLine.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         shootLine.transform.SetParent(gameObject.transform);
         shotRemainTime = 0.5f;
@@ -221,9 +222,11 @@ public class DogAnimationSimple : CharacterController
         decelleration = 1.0f;
         maxWalk = 0.5f;
         maxRun = 1.0f;
+        dogAnim = GetComponent<Animator>(); // Get the animation component
 
         //Se define el CharacterData con los datos de Unity editor
         characterData = characterData.CreateNewCharacterData(charStatName, charStatType, charStatSubType, charStatColor);
+        UpdateHealthDisplay(); //Inicializamos el UI de Health.
 
     }
 

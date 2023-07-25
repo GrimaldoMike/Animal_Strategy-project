@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CharacterController : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class CharacterController : MonoBehaviour
     [Header("Movement variables")]
     public float moveSpeed, runningSpeed;
     private Vector3 moveTarget;
-    public float moveRange, runRange;
+    //public float moveRange, runRange;
     public bool finishedMovement;
     public Vector3 originalPosition;
     public NavMeshAgent navAgent;
@@ -31,12 +32,12 @@ public class CharacterController : MonoBehaviour
     public List<CharacterController> meleeTargets = new List<CharacterController>();
     [HideInInspector]
     public int currentMeleeTarget;
-    public float meleeDamage;
+    //public float meleeDamage;
 
     //Fire variables
     [Header("Fire variables")]
-    public float shootRange;
-    public float shootDamage;
+    //public float shootRange;
+    //public float shootDamage;
     [HideInInspector]
     public List<CharacterController> shootTargets = new List<CharacterController>();
     [HideInInspector]
@@ -53,11 +54,11 @@ public class CharacterController : MonoBehaviour
     public bool isDefending;
 
     //Health variables
-    [Header("Health variables")]
-    public float maxHealth;
+    /*public float maxHealth;
     [HideInInspector]
     public float currentHealth;
-
+    */
+    [Header("Health variables")]
     public TMP_Text healthText;
     public Slider healthSlider;
 
@@ -86,8 +87,8 @@ public class CharacterController : MonoBehaviour
         //Se movieron al Awake para que el juego no empieze con la match y los jugadors en HP =0, o terminar�a la partida al empezar
         moveTarget = transform.position;
         navAgent.speed = moveSpeed;
-        maxHealth = 10f;
-        currentHealth = maxHealth;
+        /*maxHealth = 10f;
+        currentHealth = maxHealth;*/
         isKnockedOut = false;
     }
 
@@ -158,7 +159,7 @@ public class CharacterController : MonoBehaviour
 
     public void MoveToPoint(Vector3 pointToMoveTo)
     {
-        //Guardamos la posici�n actual.
+        //Guardamos la posicion actual.
         originalPosition = transform.position;
 
         //Se mover� por parametro hacia el punto enviado.
@@ -168,7 +169,8 @@ public class CharacterController : MonoBehaviour
 
         navAgent.speed = moveSpeed;
 
-        //Este if solo funciona porque sabemos que "currentActionCost" vale 1 cuando camina y 2 cuando corre. Se deber� modificar si existen m�s puntos de accion cuando hay movimiento.
+        //Este if solo funciona porque sabemos que "currentActionCost" vale 1 cuando camina y 2 cuando corre. Se debera modificar si existen mas puntos de accion cuando hay movimiento.
+        //if (GameManager.instance.currentActionCost >= 2)
         if (GameManager.instance.currentActionCost >= 2)
         {
             isRunning = true;
@@ -221,20 +223,32 @@ public class CharacterController : MonoBehaviour
         CheckForCharacterInteractionController("Bite");
 
         SFXManager.instance.meleeHit.Play();
-        meleeTargets[currentMeleeTarget].TakeDamage(meleeDamage);
+        /*meleeTargets[currentMeleeTarget].TakeDamage(meleeDamage);
+        */
+        meleeTargets[currentMeleeTarget].TakeDamage(characterData.CurrentStats.CurrentAttack);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         if(isDefending == true) // Se revisa si estuvo en defensa, reduce el da�o.
         {
-            damage *= .5f;
+            //Calculo de reduccion de daño (DEFENSA) (formula: reduced= (1 - (DEF * .1) )* ATK)
+            float reducedNumber = damage * (1- (characterData.CurrentStats.CurrentDefense * 0.1f));
+            damage = (int)Math.Round(reducedNumber); // Se usa formula para cambiar a int el daño reducido.
         }
 
-        currentHealth -= damage;
+        //characterData.CurrentStats.CurrentHP -= damage;
+        /*currentHealth -= damage;
         if (currentHealth <= 0)
         {
             currentHealth = 0f;
+            CharacterDefeatedByHealth();
+        }
+        */
+        characterData.CurrentStats.CurrentHP -= damage;
+        if (characterData.CurrentStats.CurrentHP <= 0)
+        {
+            characterData.CurrentStats.CurrentHP = 0;
             CharacterDefeatedByHealth();
         }
         else
@@ -273,15 +287,21 @@ public class CharacterController : MonoBehaviour
     //Actualizamos el UI del HP
     public void UpdateHealthDisplay()
     {
+        /*
         healthText.text = "HP: " + currentHealth + "/" + maxHealth;
         healthSlider.maxValue = maxHealth;
         healthSlider.value = currentHealth;
+        */
+        healthText.text = "HP: " + characterData.CurrentStats.CurrentHP + "/" + characterData.GeneralStats.MaxHP;
+        healthSlider.maxValue = characterData.GeneralStats.MaxHP;
+        healthSlider.value = characterData.CurrentStats.CurrentHP;
     }
 
     //Misma revision de objetivos para el disparo, copiado como el de melee.
     public void GetShootTargets()
     {
         shootTargets.Clear();
+        int rangeOfShooting = 10;
 
         if (isKnockedOut == false) // Se valida si un personaje en el suelo es un objetivo para shoot.
         {
@@ -289,7 +309,8 @@ public class CharacterController : MonoBehaviour
             {
                 foreach (CharacterController cc in GameManager.instance.enemyTeam)
                 {
-                    if (Vector3.Distance(transform.position, cc.transform.position) < shootRange)
+                    //if (Vector3.Distance(transform.position, cc.transform.position) < shootRange)
+                    if (Vector3.Distance(transform.position, cc.transform.position) < rangeOfShooting)
                     {
                         shootTargets.Add(cc);
                     }
@@ -299,7 +320,8 @@ public class CharacterController : MonoBehaviour
             {
                 foreach (CharacterController cc in GameManager.instance.playerTeam)
                 {
-                    if (Vector3.Distance(transform.position, cc.transform.position) < shootRange)
+                    //if (Vector3.Distance(transform.position, cc.transform.position) < shootRange)
+                    if (Vector3.Distance(transform.position, cc.transform.position) < rangeOfShooting)
                     {
                         shootTargets.Add(cc);
                     }
@@ -318,34 +340,42 @@ public class CharacterController : MonoBehaviour
     {
         if(isShooting == true)
         {
+            int rangeOfShooting = 10;
             //Se obtiene la posicion del targetpoint basado en el shootpoint del oponente.
             Vector3 targetPoint = new Vector3(shootTargets[currentShootTarget].transform.position.x, shootTargets[currentShootTarget].shootPoint.position.y, shootTargets[currentShootTarget].transform.position.z);
 
-            targetPoint.y = Random.Range(targetPoint.y, shootTargets[currentShootTarget].transform.position.y + 0.25f); //Este c�digo ajusta un rango de propabilidad aleatoria en eje "y" (altura). Puede disparar entre los pies +.25 hasta el shootPoint.
+            targetPoint.y = UnityEngine.Random.Range(targetPoint.y, shootTargets[currentShootTarget].transform.position.y + 0.25f); //Este c�digo ajusta un rango de propabilidad aleatoria en eje "y" (altura). Puede disparar entre los pies +.25 hasta el shootPoint.
 
             //El offset es una formula que toma el shotMissedRange al azar y calcula, dependiendo de la distancia del punto de disparo y el objetivo, una cantidad de variaci�n.
             //Entre m�s lejos, mas alto el valor deprobabilidad de fallo.
             //Si la distancia entre el punto de disparo y objetivo es m�s peque�a, la variaci�n de fallo es mucho m�s peque�a.
-            Vector3 targetOffset = new Vector3(Random.Range(-shotMissedRange.x, shotMissedRange.x),
-                                               Random.Range(-shotMissedRange.y, shotMissedRange.y),
-                                               Random.Range(-shotMissedRange.z, shotMissedRange.z));
+            Vector3 targetOffset = new Vector3(UnityEngine.Random.Range(-shotMissedRange.x, shotMissedRange.x),
+                                               UnityEngine.Random.Range(-shotMissedRange.y, shotMissedRange.y),
+                                               UnityEngine.Random.Range(-shotMissedRange.z, shotMissedRange.z));
             //targetOffset = targetOffset * (Vector3.Distance(targetPoint, shootPoint.position) / shootRange);
-            targetOffset = targetOffset * (Vector3.Distance(shootTargets[currentShootTarget].transform.position, transform.position) / shootRange);
+            //targetOffset = targetOffset * (Vector3.Distance(shootTargets[currentShootTarget].transform.position, transform.position) / shootRange);
+            targetOffset = targetOffset * (Vector3.Distance(shootTargets[currentShootTarget].transform.position, transform.position) / rangeOfShooting);
 
             targetPoint += targetOffset; //Se agrega la variacion de probabilidad de fallo a la distancia.
 
             Vector3 shootDirection = (targetPoint - shootPoint.position).normalized;
 
-            Debug.DrawRay(shootPoint.position, shootDirection * shootDamage, Color.green, 1f);
+            //Debug.DrawRay(shootPoint.position, shootDirection * shootDamage, Color.green, 1f);
+            //Debug.DrawRay(shootPoint.position, shootDirection * characterData.CurrentStats.CurrentSkill, Color.green, 1f);
+            Debug.DrawRay(shootPoint.position, shootDirection * (characterData.CurrentStats.CurrentAttack * 2 / 3), Color.green, 1f); // Se usa una forula de dos tercios del ataque para el rango (temp).
 
-            //Se calcula d�nde el raycast golpea al objetivo y si le dio o no.
+            //Se calcula donde el raycast golpea al objetivo y si le dio o no.
             RaycastHit hit;
-            if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))
+
+            //if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))
+            if (Physics.Raycast(shootPoint.position, shootDirection, out hit, rangeOfShooting))
             {
                 if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject)
                 {
                     //Debug.Log(name + " Shot Target " + shootTargets[currentShootTarget].name);
-                    shootTargets[currentShootTarget].TakeDamage(shootDamage);
+                    //shootTargets[currentShootTarget].TakeDamage(shootDamage);
+                    //shootTargets[currentShootTarget].TakeDamage(characterData.CurrentStats.CurrentSkill); 
+                    shootTargets[currentShootTarget].TakeDamage(characterData.CurrentStats.CurrentAttack * 2 / 3); // Se usa una forula de dos tercios del ataque para el rango (temp).
 
                     Instantiate(shotHitFX, hit.point, Quaternion.identity); // Instanciamos el FX de da�o.
 
@@ -372,7 +402,8 @@ public class CharacterController : MonoBehaviour
 
                 //Aparecemos la linea visual que visualmente representa una bala. FALLO.
                 shootLine.SetPosition(0, shootPoint.position);
-                shootLine.SetPosition(1, shootPoint.position + (shootDirection * shootRange));
+                //shootLine.SetPosition(1, shootPoint.position + (shootDirection * shootRange));
+                shootLine.SetPosition(1, shootPoint.position + (shootDirection * rangeOfShooting));
             }
 
             shootLine.gameObject.SetActive(true);
@@ -404,12 +435,15 @@ public class CharacterController : MonoBehaviour
         float shotChance = 0f;
 
         RaycastHit hit;
+        int rangeOfShooting = 10;
 
         //Se revisa el rayo en HIGH: Se envia un Raycast a la altura del Shootpoint del enemigo. Si nada bloquea su trayectoria, se suma 50% de accuracy.
         Vector3 targetPoint = new Vector3(shootTargets[currentShootTarget].transform.position.x, shootTargets[currentShootTarget].shootPoint.position.y, shootTargets[currentShootTarget].transform.position.z);
         Vector3 shootDirection = (targetPoint - shootPoint.position).normalized;
-        Debug.DrawRay(shootPoint.position, shootDirection * shootRange, Color.red, 1f);
-        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colision� el Raycast.
+        //Debug.DrawRay(shootPoint.position, shootDirection * shootRange, Color.red, 1f);
+        Debug.DrawRay(shootPoint.position, shootDirection * rangeOfShooting, Color.red, 1f);
+        //if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colisiono el Raycast.
+        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, rangeOfShooting)) 
         {
             if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject) // Si el objeto con el que colision� el Raycast es el objetivo a disparar.
             {
@@ -420,8 +454,10 @@ public class CharacterController : MonoBehaviour
         //Se revisa el rayo en LOW: Se envia un Raycast a la altura de las piernas +0.25f del enemigo. Si nada bloquea su trayectoria, se suma otro 50% de accuracy.
         targetPoint.y = shootTargets[currentShootTarget].transform.position.y + 0.25f;
         shootDirection = (targetPoint - shootPoint.position).normalized;
-        Debug.DrawRay(shootPoint.position, shootDirection * shootRange, Color.red, 1f);
-        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colision� el Raycast.
+        //Debug.DrawRay(shootPoint.position, shootDirection * shootRange, Color.red, 1f);
+        Debug.DrawRay(shootPoint.position, shootDirection * rangeOfShooting, Color.red, 1f);
+        //if (Physics.Raycast(shootPoint.position, shootDirection, out hit, shootRange))  //Se obtiene el gameobject con que colisiono el Raycast.
+        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, rangeOfShooting))  
         {
             if (hit.collider.gameObject == shootTargets[currentShootTarget].gameObject) // Si el objeto con el que colision� el Raycast es el objetivo a disparar.
             {
@@ -430,7 +466,8 @@ public class CharacterController : MonoBehaviour
         }
 
         shotChance *= 0.95f; // Visualmente ponemos que no es seguro el tiro.
-        shotChance *= 1f - (Vector3.Distance(shootTargets[currentShootTarget].transform.position, transform.position) / shootRange); // Calculamos el accuracy tomando en cuenta el Offset por distancia
+        //shotChance *= 1f - (Vector3.Distance(shootTargets[currentShootTarget].transform.position, transform.position) / shootRange); // Calculamos el accuracy tomando en cuenta el Offset por distancia
+        shotChance *= 1f - (Vector3.Distance(shootTargets[currentShootTarget].transform.position, transform.position) / rangeOfShooting);
 
         return shotChance;
     }
@@ -551,13 +588,15 @@ public class CharacterController : MonoBehaviour
                 return;
         }
     }
-    
+    /*
     private void InitCharacterControllerValues()
     {
         moveRange = 3.5f; runRange = 8f;
         isMoving = false; isMeleeing = false; isRunning = false; isShooting = false; isDefending = false; isDamaged = false; isKnockedOut = false;
-        meleeRange = 2f; meleeDamage = 5f;
-        shootRange = 10f; shootDamage = 3f;
+        meleeRange = 2f; 
+        //meleeDamage = 5f;
+        shootRange = 10f; 
+        //shootDamage = 3f;
         currentMeleeTarget = 0; currentShootTarget = 0; //Default no hay enemigos en rango.
         UpdateHealthDisplay(); //Inicializamos el UI de Health.
         shootLine.transform.position = Vector3.zero;
@@ -568,8 +607,8 @@ public class CharacterController : MonoBehaviour
         rotateSpeed = 45f;
         isRotating = false;
         endRotationTarget = this.transform;
-
     }
+    */
 
 
     //Clase y funcion que transforma frames a un Yield en decimales de segundos.

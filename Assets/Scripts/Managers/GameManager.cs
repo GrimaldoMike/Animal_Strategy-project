@@ -22,10 +22,12 @@ public class GameManager : MonoBehaviour
     private int currentChar;
 
     //Acciones por turno.
+    
     public int totalTurnPoints;
     [HideInInspector]
     public int turnPointsRemaining;
     public int currentActionCost;
+    
 
     public GameObject targetDisplay;
 

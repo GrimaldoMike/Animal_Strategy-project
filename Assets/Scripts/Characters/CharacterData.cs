@@ -105,7 +105,7 @@ public class CharacterData
                 generalStatsInitial.MaxAttack = 5;
                 generalStatsInitial.MaxDefense = 5;
                 generalStatsInitial.MaxInitiative = 5;
-                generalStatsInitial.MaxSkill = 5;
+                generalStatsInitial.MaxSkill = 3;
                 generalStatsInitial.MaxActionPoints = 2;
                 //BattleActions
                 battleActionsInitial.Melee.Add("Bite");
@@ -121,7 +121,7 @@ public class CharacterData
                 generalStatsInitial.MaxAttack = 3;
                 generalStatsInitial.MaxDefense = 3;
                 generalStatsInitial.MaxInitiative = 3;
-                generalStatsInitial.MaxSkill = 3;
+                generalStatsInitial.MaxSkill = 2;
                 generalStatsInitial.MaxActionPoints = 2;
                 //BattleActions
                 battleActionsInitial.Melee.Add("Bite");

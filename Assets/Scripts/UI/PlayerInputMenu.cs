@@ -145,7 +145,8 @@ public class PlayerInputMenu : MonoBehaviour
         //Muestra el grid de movimiento solo cuando el botón fue presionado y existan acciones por turno restantes.
         if (GameManager.instance.turnPointsRemaining >= 1)
         {
-            MoveGrid.instance.ShowPointsInRange(GameManager.instance.activePlayer.moveRange, GameManager.instance.activePlayer.transform.position);
+            //MoveGrid.instance.ShowPointsInRange(GameManager.instance.activePlayer.moveRange, GameManager.instance.activePlayer.transform.position);
+            MoveGrid.instance.ShowPointsInRange(GameManager.instance.activePlayer.characterData.CurrentStats.CurrentWalkRange, GameManager.instance.activePlayer.transform.position);
             GameManager.instance.currentActionCost = 1;
         }
         SFXManager.instance.UISelect.Play();
@@ -156,7 +157,8 @@ public class PlayerInputMenu : MonoBehaviour
         //Mismo que ShowMove, pero se usa la variable "runRange".
         if (GameManager.instance.turnPointsRemaining >= 2)
         {
-            MoveGrid.instance.ShowPointsInRange(GameManager.instance.activePlayer.runRange, GameManager.instance.activePlayer.transform.position);
+            //MoveGrid.instance.ShowPointsInRange(GameManager.instance.activePlayer.runRange, GameManager.instance.activePlayer.transform.position);
+            MoveGrid.instance.ShowPointsInRange(GameManager.instance.activePlayer.characterData.CurrentStats.CurrentRunRange, GameManager.instance.activePlayer.transform.position);
             GameManager.instance.currentActionCost = 2;
         }
         SFXManager.instance.UISelect.Play();

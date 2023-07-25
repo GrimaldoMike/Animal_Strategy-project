@@ -92,10 +92,17 @@ public class AIBrain : MonoBehaviour
             int i = 0;
             foreach (CharacterController cc in charaCon.meleeTargets)
             {
+                /*
                 if (cc.currentHealth < minHp && cc.currentHealth > 0)
                 {
                     charaCon.currentMeleeTarget = i;
                     minHp = cc.currentHealth;
+                }
+                */
+                if (cc.characterData.CurrentStats.CurrentHP < minHp && cc.characterData.CurrentStats.CurrentHP > 0)
+                {
+                    charaCon.currentMeleeTarget = i;
+                    minHp = cc.characterData.CurrentStats.CurrentHP;
                 }
                 i++;
             }
@@ -181,10 +188,12 @@ public class AIBrain : MonoBehaviour
                 }
             }
 
-            if (Vector3.Distance(transform.position, GameManager.instance.playerTeam[nearestPlayer].transform.position) > charaCon.moveRange && //Se revisa si el AI usara RUN o MOVE dependiendo si su moveRange alcanza.
+            //if (Vector3.Distance(transform.position, GameManager.instance.playerTeam[nearestPlayer].transform.position) > charaCon.moveRange && //Se revisa si el AI usara RUN o MOVE dependiendo si su moveRange alcanza.
+            if (Vector3.Distance(transform.position, GameManager.instance.playerTeam[nearestPlayer].transform.position) > charaCon.characterData.CurrentStats.CurrentWalkRange && //Se revisa si el AI usara RUN o MOVE dependiendo si su moveRange alcanza.
                GameManager.instance.turnPointsRemaining >= 2) //Si aun me quedan los turnPoints suficientes para poder ejecutar correr.
             {
-                potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.runRange, transform.position);
+                //potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.runRange, transform.position);
+                potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.characterData.CurrentStats.CurrentRunRange, transform.position);
 
                 float closestDistance = 1000f;
 
@@ -203,7 +212,8 @@ public class AIBrain : MonoBehaviour
             }
             else //Se ejecuta el mover al jugador.
             {
-                potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.moveRange, transform.position);
+                //potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.moveRange, transform.position);
+                potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.characterData.CurrentStats.CurrentWalkRange, transform.position);
 
                 float closestDistance = 1000f;
 
@@ -225,7 +235,8 @@ public class AIBrain : MonoBehaviour
         }
         else
         {
-            potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.moveRange, transform.position); //Se carga el listado de movimientos desde donde el AI esta parado.
+            //potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.moveRange, transform.position); //Se carga el listado de movimientos desde donde el AI esta parado.
+            potentialMovePoints = MoveGrid.instance.GetMovePointsInRange(charaCon.characterData.CurrentStats.CurrentWalkRange, transform.position); //Se carga el listado de movimientos desde donde el AI esta parado.
             selectedPoint = Random.Range(0, potentialMovePoints.Count); //Se selecciona uno al azar.
             GameManager.instance.currentActionCost = 1; //Solo se moverá, no correrá gastando 2 movimientos.
 

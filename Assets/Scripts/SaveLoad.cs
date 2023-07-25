@@ -18,10 +18,10 @@ public static class SaveLoad
 
     public static void Load()
     {
-        if (File.Exists(Application.persistentDataPath + "/savedGames.gd"))
+        if (File.Exists(Application.persistentDataPath + "/savedGames.sav"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/savedGames.gd", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/savedGames.sav", FileMode.Open);
             SaveLoad.savedGames = (List<Game>)bf.Deserialize(file);
             file.Close();
         }
